@@ -29,8 +29,7 @@ return [
 
     'path' => '/',
 
-    // 'domain' => 'cgie.mdr.gov.br',
-    'domain' => '10.216.4.71',
+    'domain' => '138.197.115.229',
 
     'secure' => env('SESSION_SECURE_COOKIE'),
 
