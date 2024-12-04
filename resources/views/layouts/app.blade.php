@@ -149,18 +149,7 @@
                                             </div>
                                         -->
                                         <div class="menu-info">
-                                            <div class="text-justify text-down-01 textoNormal mb-5">
-                                                A <strong>CGIE</strong>/DIGEC/SE elaborou este sistema como um protótipo
-                                                e, caso sejam
-                                                bem-sucedidos, o conceito e as regras de negócio serão incorporados ao
-                                                sistema MIDR Investe como um módulo adicional.
-                                            </div>
-                                            <div class="text-justify text-down-01 textoNormal">
-                                                Qualquer dúvida ou problema entre em contato pelo
-                                                e-mail midr.entrega@mdr.gov.br, pelo telefone (61) 2034-4211 ou pelo
-                                                chat no
-                                                Teams (marcio.neto@mdr.gov.br / rafael.tabares@mdr.gov.br)
-                                            </div>
+
                                         </div>
 
                                         <div class="menu-info">
@@ -204,8 +193,6 @@
                 <div class="container-fluid">
                     <div class="info">
                         <div class="text-down-01 text-medium pb-2">
-                            Protótipo desenvolvido pela Coordenação-Geral de Informações Estratégicas e Geoespaciais -
-                            CGIGeo/DIGEC/SE
                             <a href="https://opensource.org/license/mit/">licença MIT</a>.
                         </div>
                     </div>
