@@ -195,6 +195,6 @@ Route::get('downloadCaixaZip', 'App\Http\Controllers\ImportController@downloadCa
 
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::get('/register', function () {
-    return redirect('/login');
-});
+// Route::get('/register', function () {
+//     return redirect('/login');
+// });
