@@ -84,6 +84,11 @@ Route::group(['middleware' => ['auth:sanctum', 'auth', 'check-permissao', 'troca
     Route::match(['get', 'post'], 'relatorios/word', [\App\Http\Controllers\RelatoriosController::class, 'carometroWordPorUF'])
         ->where('sgl_partido', '.*')->name('relatorios.carometro.uf.word');
 
+    // Início rotas da agenda
+    Route::resource('agendas', \App\Http\Controllers\AgendaController::class);
+    Route::get('/agendas/getEvents', [\App\Http\Controllers\AgendaController::class, 'getEvents'])->name('agendas.getEvents');
+    // Fim rotas da agenda
+
     // Início rotas dos relatórios de carômetros
     Route::match(['get', 'post'], 'relatorios/carometro/partido/{sgl_partido}/{dsc_casa?}/{sgl_uf_representante?}', [\App\Http\Controllers\RelatoriosController::class, 'carometroPorPartido'])
         ->where('sgl_partido', '.*')->name('relatorios.carometro.partido');
