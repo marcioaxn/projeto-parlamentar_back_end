@@ -29,7 +29,7 @@ return [
 
     'path' => '/',
 
-    'domain' => '138.197.115.229',
+    'domain' => '127.0.0.1',
 
     'secure' => env('SESSION_SECURE_COOKIE'),
 

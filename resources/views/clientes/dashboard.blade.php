@@ -121,13 +121,7 @@
                                 @endif
                             </td>
                             <td style="width: 20% !Important;">
-                                @php
-                                    if ($cliente->lotacao) {
-                                        $sigla = $cliente->lotacao->sigla;
-                                        $nome = $cliente->lotacao->nome;
-                                    }
-                                @endphp
-                                {!! $sigla . ' - ' . $nome !!}
+
                             </td>
                             <td>
                                 @if ($cliente->ativo == 1)
