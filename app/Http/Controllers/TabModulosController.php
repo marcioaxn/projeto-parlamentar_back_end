@@ -19,6 +19,20 @@ class TabModulosController extends Controller
 
         $user = Auth::user();
 
+        $gabinetesAtivos = $user->gabinetesAtivos;
+
+        if ($gabinetesAtivos->isEmpty()) {
+            $mensagem = 'Você não possui gabinetes ativos.';
+            return view('errors.index')
+                ->with('mensagem', $mensagem);
+        }
+
+        // foreach ($gabinetesAtivos as $gabinete) {
+        //     dd($gabinete);
+        // }
+
+        // dd($user, $gabinetesAtivos, now());
+
         \Session::put('bln_administrar_usuarios', $user->perfil->bln_administrar_usuarios);
         \Session::put('bln_acesso_inrestrito', $user->perfil->bln_acesso_inrestrito);
 

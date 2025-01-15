@@ -5,6 +5,10 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\UsersController;
 
+use App\Http\Controllers\TabPlanosController;
+use App\Http\Controllers\TabGabineteController;
+use App\Http\Controllers\ContratoController;
+
 Route::group(['middleware' => ['auth:sanctum', 'auth', 'check-permissao', 'trocarSenha', 'usuarioInativo']], function () {
 
     Route::get('/', [App\Http\Controllers\TabModulosController::class, 'index'])->name('principal');
@@ -121,11 +125,37 @@ Route::group(['middleware' => ['auth:sanctum', 'auth', 'check-permissao', 'troca
     Route::match(['get', 'post'], 'emendas-parlamentares', [\App\Http\Controllers\EmendasParlamentaresController::class, 'index'])->name('emendas-parlamentares');
     // Fim rotas das Emendas Parlamentares
 
-    Route::get('sem-permissao', function () {
-        return view('acesso-negado');
-    })->name('acesso-negado');
 
 });
+
+// Rotas protegidas pelo middleware habituais e o CheckUserProfile
+Route::middleware(['auth:sanctum', 'auth', 'trocarSenha', 'usuarioInativo', 'check.profile'])->group(function () {
+
+    // Início das rotas de gerenciamento dos Planos
+    Route::resource('planos', TabPlanosController::class)->parameters([
+        'planos' => 'cod_plano',
+    ]);
+    // Fim das rotas de gerenciamento dos Planos
+
+    // Início das rotas de gerenciamento dos Gabinetes
+    Route::resource('gabinetes', TabGabineteController::class)->parameters([
+        'gabinetes' => 'cod_gabinete',
+    ]);
+    // Fim das rotas de gerenciamento dos Gabinetes
+
+    // Início das rotas de gerenciamento dos Contratos
+    Route::resource('contratos', ContratoController::class)->parameters([
+        'contratos' => 'cod_contrato', // Usando cod_contrato como parâmetro
+    ]);
+    Route::get('/contratos/plano-valor/{cod_plano}', [ContratoController::class, 'getPlanoValor'])->name('contratos.plano-valor');
+    // Fim das rotas de gerenciamento dos Contratos
+
+    Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+});
+
+Route::get('sem-permissao', function () {
+    return view('acesso-negado');
+})->name('acesso-negado');
 
 Route::post('novo-pac/orcamentario-financeiro/store', [\App\Http\Controllers\TabNovoPacController::class, 'storeOrcamentarioFinanceiro'])->name('novo-pac.orcamentario-financeiro-store');
 
@@ -195,6 +225,6 @@ Route::get('downloadCaixaZip', 'App\Http\Controllers\ImportController@downloadCa
 
 Route::post('/login', [LoginController::class, 'login']);
 
-// Route::get('/register', function () {
-//     return redirect('/login');
-// });
+Route::get('/register', function () {
+    return redirect('/login');
+});

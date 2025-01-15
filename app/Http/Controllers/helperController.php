@@ -41,7 +41,7 @@ class helperController extends Controller
 
     public function updateTheme(Request $request, $theme)
     {
-        $request->session()->put('theme', $theme);
+        Session::put('theme', $theme);
 
         return response()->json(['success' => true]);
     }

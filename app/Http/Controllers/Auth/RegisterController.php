@@ -91,12 +91,12 @@ class RegisterController extends Controller
         $email = $input['email'];
         $nome = $input['name'];
 
-        $assunto = "Visão 360° - Cadastro";
-        $textoEmail = "<p>Prezado(a)</p><p><b>" . $nome . "</b></p><p>É um prazer tê-lo(a) conosco. O seu cadastro no <b>Visão 360°</b> foi realizado com sucesso.</p><p>O <b>Visão 360°</b> é uma plataforma desenvolvida para mapear e conectar os principais atores políticos, econômicos e sociais no território brasileiro. Na fase atual do projeto, você pode explorar informações detalhadas sobre os Parlamentares federais e estaduais. Também é possível registrar dados de atendimento e pautas para potencializar suas estratégias de articulação.</p><p>Endereço: <a href='https://visao360.mdr.gov.br' target='_blank'>https://visao360.mdr.gov.br</a></p><p>Esta é a sua senha inicial:</p><p><span style='color: #CD3333; padding-left: 9px;'><b>" . $senha . "</b></span></p><p></p>Por questão de segurança, o sistema obriga a troca dessa senha inicial no primeiro acesso.<p>Em caso de dúvidas envie uma mensagem para: visao.360@mdr.gov.br</p><p>Respeitosamente,<br><strong>Equipe Visão 360°<br>Coordenação-Geral de Informações Estratégicas e Geoespaciais<br>CGIGeo/DIGEC/SE</strong></p>";
+        $assunto = "Parlamentum - Cadastro";
+        $textoEmail = "<p>Prezado(a)</p><p><b>" . $nome . "</b></p><p>É um prazer tê-lo(a) conosco. O seu cadastro no <b>Parlamentum</b> foi realizado com sucesso.</p><p>O <b>Parlamentum</b> é uma plataforma desenvolvida para mapear e conectar os principais atores políticos, econômicos e sociais no território brasileiro. Na fase atual do projeto, você pode explorar informações detalhadas sobre os Parlamentares federais e estaduais. Também é possível registrar dados de atendimento e pautas para potencializar suas estratégias de articulação.</p><p>Endereço: <a href='https://visao360.mdr.gov.br' target='_blank'>https://visao360.mdr.gov.br</a></p><p>Esta é a sua senha inicial:</p><p><span style='color: #CD3333; padding-left: 9px;'><b>" . $senha . "</b></span></p><p></p>Por questão de segurança, o sistema obriga a troca dessa senha inicial no primeiro acesso.<p>Em caso de dúvidas envie uma mensagem para: visao.360@mdr.gov.br</p><p>Respeitosamente,<br><strong>Equipe Parlamentum<br>Coordenação-Geral de Informações Estratégicas e Geoespaciais<br>CGIGeo/DIGEC/SE</strong></p>";
 
         Mail::send('email.cadastro', ['name' => $nome, 'textoEmail' => $textoEmail], function ($message) use ($email, $nome, $assunto) {
             $message->to($email, $nome)->subject($assunto);
-            $message->from('visao.360@mdr.gov.br', 'Visão 360°');
+            $message->from('visao.360@mdr.gov.br', 'Parlamentum');
         });
 
         \Session::flash('flash_message', "Cadastro do(a) <code>" . $input['name'] . "</code> foi feito com sucesso.");

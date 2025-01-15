@@ -88,9 +88,13 @@ class User extends Authenticatable implements Auditable
         return $this->hasMany(RelUserModuloPermissao::class, 'cod_user');
     }
 
-    public function lotacao()
+    public function gabinetesAtivos()
     {
-        return $this->belongsTo(TabOrganizacao::class, 'codigoUnidade', 'codigoUnidade');
+        return $this->belongsToMany(TabGabinete::class, 'rel_gabinetes_users', 'cod_user', 'cod_gabinete')
+            ->whereHas('contratos', function ($query) {
+                $query->where('sta_ativo', 'A')
+                    ->where('dat_inicio', '<=', now())
+                    ->where('dat_fim', '>=', now());
+            });
     }
-
 }

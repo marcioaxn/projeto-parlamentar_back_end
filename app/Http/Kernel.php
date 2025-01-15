@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'trocarSenha' => \App\Http\Middleware\TrocarSenha::class,
         'usuarioInativo' => \App\Http\Middleware\UsuarioInativo::class,
         'check-permissao' => \App\Http\Middleware\CheckPermissao::class,
+        'check.profile' => \App\Http\Middleware\CheckUserProfile::class,
         'no-robots' => \App\Http\Middleware\NoRobots::class,
     ];
 }

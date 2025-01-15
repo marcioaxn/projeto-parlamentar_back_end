@@ -25,7 +25,7 @@
 
             <hr class="mt-0 mb-0">
 
-            <h1 class="tituloSemUpper pt-1 pl-2">Navegue pelas Temáticas do Visão 360°</h1>
+            <h1 class="tituloSemUpper pt-1 pl-2">Navegue pelas Temáticas do Parlamentum</h1>
 
         </div>
     </div>

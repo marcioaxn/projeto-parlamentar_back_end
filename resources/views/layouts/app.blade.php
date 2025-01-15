@@ -7,7 +7,7 @@
       must-revalidate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>{{ env('APP_NAME_CURTO') ?? 'Visão 360°' }}</title>
+    <title>{{ env('APP_NAME_CURTO') ?? 'Parlamentum' }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
@@ -91,11 +91,15 @@
 
     <script src="{{ asset('js/core-init.js') }}" defer></script>
 
+    <script src="https://unpkg.com/imask"></script>
+
 </head>
 
 <body style="font-family: Raleway !Important;">
     <div class="divMain" id="app">
         <div class="template-base">
+
+            @include('layouts.header')
 
             <main class="d-flex flex-fill mb-5" id="main">
 
@@ -108,12 +112,11 @@
                                 <div class="menu-panel">
                                     <div class="menu-header">
                                         <div class="menu-title"><img src='{{ URL::asset('/img/govbr-logo.png') }}'
-                                                alt="Imagem ilustrativa" /><span>{{ env('APP_NAME_CURTO') ?? 'Visão 360°' }}</span>
+                                                alt="Imagem ilustrativa" /><span>{{ env('APP_NAME_CURTO') ?? 'Parlamentum' }}</span>
                                         </div>
                                         <div class="menu-close">
-                                            <button class="br-button circle" type="button"
-                                                aria-label="Fechar o menu" data-dismiss="menu"><i
-                                                    class="fas fa-times" aria-hidden="true"></i>
+                                            <button class="br-button circle" type="button" aria-label="Fechar o menu"
+                                                data-dismiss="menu"><i class="fas fa-times" aria-hidden="true"></i>
                                             </button>
                                         </div>
                                     </div>
@@ -149,7 +152,18 @@
                                             </div>
                                         -->
                                         <div class="menu-info">
-
+                                            <div class="text-justify text-down-01 textoNormal mb-5">
+                                                A <strong>CGIE</strong>/DIGEC/SE elaborou este sistema como um protótipo
+                                                e, caso sejam
+                                                bem-sucedidos, o conceito e as regras de negócio serão incorporados ao
+                                                sistema MIDR Investe como um módulo adicional.
+                                            </div>
+                                            <div class="text-justify text-down-01 textoNormal">
+                                                Qualquer dúvida ou problema entre em contato pelo
+                                                e-mail midr.entrega@mdr.gov.br, pelo telefone (61) 2034-4211 ou pelo
+                                                chat no
+                                                Teams (marcio.neto@mdr.gov.br / rafael.tabares@mdr.gov.br)
+                                            </div>
                                         </div>
 
                                         <div class="menu-info">
@@ -193,6 +207,8 @@
                 <div class="container-fluid">
                     <div class="info">
                         <div class="text-down-01 text-medium pb-2">
+                            Protótipo desenvolvido pela Coordenação-Geral de Informações Estratégicas e Geoespaciais -
+                            CGIGeo/DIGEC/SE
                             <a href="https://opensource.org/license/mit/">licença MIT</a>.
                         </div>
                     </div>
@@ -319,6 +335,33 @@
         });
     </script>
 
+    @if (\Session::has('theme'))
+        {
+
+        <script>
+            switchThemePorSession();
+            // Função para alternar entre tema escuro e claro
+            function switchThemePorSession() {
+                const body = document.body;
+                const currentTheme = '<?php print Session::get('theme'); ?>';
+
+                if (currentTheme === 'dark') {
+
+                    body.setAttribute('data-theme', 'dark');
+                    document.getElementById('temaProposto').value = 'dark';
+
+                } else {
+
+                    body.setAttribute('data-theme', 'light');
+                    document.getElementById('temaProposto').value = 'light';
+
+                }
+            }
+        </script>
+
+        }
+    @endif
+
     <script>
         // Selecionando o ícone do tema
         const themeToggle = document.querySelector('#theme-toggle');
@@ -361,7 +404,7 @@
         }
     </script>
 
-    <script type="text/javascript">
+    <script type="text/javascript" nonce="{{ request()->header('X-Nonce') }}">
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {

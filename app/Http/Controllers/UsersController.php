@@ -80,7 +80,7 @@ class UsersController extends Controller
     {
         return User::select('cod_user', 'name', 'email', 'ativo', 'cod_perfil', 'codigoUnidade')
             ->orderBy('name')
-            ->with('perfil', 'lotacao', 'permissoesModulos')
+            ->with('perfil', 'permissoesModulos')
             ->get();
     }
 
@@ -139,15 +139,15 @@ class UsersController extends Controller
 
             $usuario->update(array('trocarsenha' => 1, 'password' => Hash::make($senha)));
 
-            $assunto = "Visão 360° - Redefinição de senha";
-            $textoEmail = "<p>Foi feita a redefinição da sua senha.</p><p>Esta é a sua nova senha:</p><p><span style='color: #CD3333;'>" . $senha . "</span></p><p>Em caso de dúvidas envie uma mensagem para: visao.360@mdr.gov.br</p><p>Respeitosamente,<br><strong>Equipe Visão 360°</strong></p>";
+            $assunto = "Parlamentum - Redefinição de senha";
+            $textoEmail = "<p>Foi feita a redefinição da sua senha.</p><p>Esta é a sua nova senha:</p><p><span style='color: #CD3333;'>" . $senha . "</span></p><p>Em caso de dúvidas envie uma mensagem para: visao.360@mdr.gov.br</p><p>Respeitosamente,<br><strong>Equipe Parlamentum</strong></p>";
 
             $email = $usuario->email;
             $nome = $usuario->name;
 
             Mail::send('email.cadastro', ['name' => $nome, 'textoEmail' => $textoEmail], function ($message) use ($email, $nome, $assunto) {
                 $message->to($email, $nome)->subject($assunto);
-                $message->from('visao.360@mdr.gov.br', 'Visão 360°');
+                $message->from('visao.360@mdr.gov.br', 'Parlamentum');
             });
 
             return redirect()->route('dashboard-clientes')->with(\Session::flash('flash_message', 'Senha resetada com sucesso!'));
@@ -410,12 +410,12 @@ class UsersController extends Controller
         $email = $input['email'];
         $nome = $input['name'];
 
-        $assunto = "Visão 360° - Cadastro";
-        $textoEmail = "<p>Prezado(a)</p><p><b>" . $nome . "</b></p><p>" . $getMensagemQueEstaraNoEmailBoasVindas->txt_mensagem_email . "</p><p>Endereço: <a href='https://visao360.mdr.gov.br' target='_blank'>https://visao360.mdr.gov.br</a></p><p>Esta é a sua senha inicial:</p><p><span style='color: #CD3333; padding-left: 9px;'><b>" . $senha . "</b></span></p><p></p>Por questão de segurança, o sistema obriga a troca dessa senha inicial no primeiro acesso.<p>Em caso de dúvidas envie uma mensagem para: visao.360@mdr.gov.br</p><p>Respeitosamente,<br><strong>Equipe Visão 360°<br>Coordenação-Geral de Informações Estratégicas e Geoespaciais - CGIGeo<br>Diretoria de Gestão Estratégica - DIGEC<br>Secretaria Executiva - SE<br>Ministério da Integração e do Desenvolvimento Regional - MIDR</strong></p>";
+        $assunto = "Parlamentum - Cadastro";
+        $textoEmail = "<p>Prezado(a)</p><p><b>" . $nome . "</b></p><p>" . $getMensagemQueEstaraNoEmailBoasVindas->txt_mensagem_email . "</p><p>Endereço: <a href='https://visao360.mdr.gov.br' target='_blank'>https://visao360.mdr.gov.br</a></p><p>Esta é a sua senha inicial:</p><p><span style='color: #CD3333; padding-left: 9px;'><b>" . $senha . "</b></span></p><p></p>Por questão de segurança, o sistema obriga a troca dessa senha inicial no primeiro acesso.<p>Em caso de dúvidas envie uma mensagem para: visao.360@mdr.gov.br</p><p>Respeitosamente,<br><strong>Equipe Parlamentum<br>Coordenação-Geral de Informações Estratégicas e Geoespaciais - CGIGeo<br>Diretoria de Gestão Estratégica - DIGEC<br>Secretaria Executiva - SE<br>Ministério da Integração e do Desenvolvimento Regional - MIDR</strong></p>";
 
         Mail::send('email.cadastro', ['name' => $nome, 'textoEmail' => $textoEmail], function ($message) use ($email, $nome, $assunto) {
             $message->to($email, $nome)->subject($assunto);
-            $message->from('visao.360@mdr.gov.br', 'Visão 360°');
+            $message->from('visao.360@mdr.gov.br', 'Parlamentum');
         });
 
         \Session::flash('flash_message', "Cadastro do(a) <code>" . $input['name'] . "</code> foi feito com sucesso.");

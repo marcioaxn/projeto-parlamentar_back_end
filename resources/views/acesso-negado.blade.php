@@ -16,7 +16,7 @@
                 <span class="pl-1 pr-1">></span>
 
                 <span dir="ltr" id="breadcrumbs-2">
-                    <span id="breadcrumbs-current">Sem permissão de acesso</span>
+                    <span id="breadcrumbs-current">Acesso não autorizado</span>
                 </span>
 
             </div>
@@ -29,7 +29,7 @@
             <div class="card text-bg-secondary mb-3">
                 <div class="card-header">Sem permissão</div>
                 <div class="card-body bg-white">
-                    <p class="card-text"><i class="fas fa-exclamation-circle text-danger"></i> O endereço que você tentou acessar é restrito a clientes com permissão. Caso você necessite de acesso, entre em contato com a equipe de gestão do sistema Visão 360° pelo e-mail <span class="text-primary">visao.360@mdr.gov.br</span> .</p>
+                    <p class="card-text"><i class="fas fa-exclamation-circle text-danger"></i> O endereço que você tentou acessar é restrito a clientes com permissão. Caso você necessite de acesso, entre em contato com a equipe de gestão do sistema {{ config('app.name') }} pelo e-mail <span class="text-primary">{{ config('app.email') }}</span> .</p>
                 </div>
             </div>
         </div>
