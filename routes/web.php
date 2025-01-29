@@ -86,7 +86,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth', 'check-permissao', 'troca
 
     // Início rotas da agenda
     Route::resource('agendas', \App\Http\Controllers\AgendaController::class);
-    Route::get('/agendas/getEvents', [\App\Http\Controllers\AgendaController::class, 'getEvents'])->name('agendas.getEvents');
+    Route::get('eventos/getEvents', [\App\Http\Controllers\AgendaController::class, 'getEvents'])->name('eventos.getEvents');
     // Fim rotas da agenda
 
     // Início rotas dos relatórios de carômetros
