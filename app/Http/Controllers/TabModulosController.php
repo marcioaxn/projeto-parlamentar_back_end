@@ -42,6 +42,9 @@ class TabModulosController extends Controller
 
     public function getCodParlamentar($codParlamentar = null)
     {
+
+        dd("Aqui 8");
+
         if (isset($codParlamentar) && !empty($codParlamentar)) {
             Session::forget('cod_parlamentar');
 

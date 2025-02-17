@@ -8,9 +8,8 @@
     <div class="container center mt-0 pt-0">
         <div class="row" style="font-family: 'Montserrat', sans-serif; margin: 0; padding: 0;">
             <div class="col-12 textoPaginaLogin text-justify mb-4">
-                Para acessar o <strong>{{ env('APP_NAME_CURTO') ?? 'Parlamentum' }}</strong>, é necessário que a
-                CGIGeo/DIGEC/SE efetue o seu cadastro. Qualquer dúvida ou problema, entre em contato pelo e-mail
-                visao.360@mdr.gov.br ou pelo chat no Teams (marcio.neto@mdr.gov.br / rafael.tabares@mdr.gov.br)
+                Para acessar o <strong>{{ env('APP_NAME_CURTO') ?? 'Parlamentum' }}</strong>, é necessário que já esteja
+                cadastrado e relacionado a um gabinete. Entre em contato por e-mail {{ env('APP_EMAIL') ?? '' }}
             </div>
             <div class="col-12 col-md-2 col-lg-4 text-center">
                 &nbsp;
@@ -58,25 +57,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
-            <div class="col-12 col-md-2 col-lg-4 text-center">
-                &nbsp;
-            </div>
-            <div class="col-12 col-md-12 col-lg-12 pt-1 text-center">
-                <div class="row">
-                    <div class="col-12 col-md-4 col-lg-4 text-center">
-                        &nbsp;
-                    </div>
-                    <div class="col-12 col-md-4 col-lg-4 text-center">
-                        <!-- <img src="{{ asset('img/mdr.png') }}" style="width: 75%;"> -->
-                    </div>
-                    <div class="col-12 col-md-4 col-lg-4 text-center">
-                        &nbsp;
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 text-center mb-3" style="margin: 0; padding: 0; font-size: 1.3rem;">
-                <img src="{{ asset('img/logo_midr_30.png') }}" class="img-fluid">
             </div>
         </div>
     </div>

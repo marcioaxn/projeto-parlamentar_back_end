@@ -1,169 +1,203 @@
-@extends('layouts.app')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@section('content')
-    <!-- Início breadcrumbs -->
-    <div id="portal-breadcrumbs-wrapper" class="m-0 pl-0 mb-1 d-print-none">
-        <nav id="breadcrumbs" aria-label="Histórico de navegação (Breadcrumbs)">
-            <div class="content">
-                <span class="sr-only">Você está aqui:</span>
-                <span class="home">
-                    <a href="{!! url('/') !!}">
-                        <span class="fas fa-home" aria-hidden="true"></span>
-                        <span class="sr-only">Página Inicial</span>
-                    </a>
-                </span>
+<html>
 
-                <span class="pl-1 pr-1">></span>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store,
+      must-revalidate">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{{ env('APP_NAME_CURTO') ?? 'Parlamentum' }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-                <span dir="ltr" id="breadcrumbs-2">
-                    <span id="breadcrumbs-current">Principal</span>
-                </span>
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+    <!-- Início ICON Brasil -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/logo_02_transparente.png') }}" />
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('img/logo_02_transparente.png') }}" />
+    <!-- Fim ICON Brasil -->
+    <link rel="stylesheet" href="{{ asset('landingpage/css/main.css') }}" />
+    <noscript>
+        <link rel="stylesheet" href="{{ asset('landingpage/css/noscript.css') }}" />
+    </noscript>
+</head>
+
+<body class="landing is-preload">
+
+    <!-- Page Wrapper -->
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <header id="header" class="alt">
+
+            <h1>
+                <a href="index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+                    <img src="{{ URL::asset('/img/logo_02_transparente.png') }}" alt="logo" height="33">
+                    {{ env('APP_NAME_CURTO') ?? 'Parlamentum' }}
+                </a>
+            </h1>
+
+        </header>
+
+        <!-- Banner -->
+        <section id="banner">
+            <div class="inner">
+                <h2>{{ env('APP_NAME_CURTO') ?? 'Parlamentum' }}</h2>
+                <p>O Parlamentum otimiza o trabalho parlamentar, <br />proporcionando um hub de informações, gerando
+                    insights sobre a base eleitoral.<br />Mais eficiência, melhores decisões e atendimento
+                    aprimorado
+                    à população.</p>
+                <ul class="actions special">
+                    <li><a href="{{ route('login') }}" class="button primary">Entrar</a></li>
+                </ul>
+            </div>
+            <a href="#two" class="more scrolly">Leia mais</a>
+        </section>
+
+        <!-- Two -->
+        <section id="two" class="wrapper alt style2">
+            <section class="spotlight">
+                <div class="image"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTJ8fGV2ZW50JTIwbWVldGluZ3xlbnwwfHwwfHx8Mg%3D%3D" alt="" /></div>
+                <div class="content">
+                    <h2>Agenda parlamentar</h2>
+                    <p>Aliquam ut ex ut augue consectetur interdum. Donec hendrerit imperdiet. Mauris eleifend fringilla
+                        nullam aenean mi ligula.</p>
+                </div>
+            </section>
+            <section class="spotlight">
+                <div class="image"><img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" /></div>
+                <div class="content">
+                    <h2>Tortor dolore feugiat<br />
+                        elementum magna</h2>
+                    <p>Aliquam ut ex ut augue consectetur interdum. Donec hendrerit imperdiet. Mauris eleifend fringilla
+                        nullam aenean mi ligula.</p>
+                </div>
+            </section>
+            <section class="spotlight">
+                <div class="image"><img src="https://images.unsplash.com/photo-1541140911322-98afe66ea6da?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" /></div>
+                <div class="content">
+                    <h2>Augue eleifend aliquet<br />
+                        sed condimentum</h2>
+                    <p>Aliquam ut ex ut augue consectetur interdum. Donec hendrerit imperdiet. Mauris eleifend fringilla
+                        nullam aenean mi ligula.</p>
+                </div>
+            </section>
+        </section>
+
+        <!-- Three -->
+        <section id="three" class="wrapper style3 special">
+            <div class="inner">
+                <header class="major">
+                    <h2>Accumsan mus tortor nunc aliquet</h2>
+                    <p>Aliquam ut ex ut augue consectetur interdum. Donec amet imperdiet eleifend<br />
+                        fringilla tincidunt. Nullam dui leo Aenean mi ligula, rhoncus ullamcorper.</p>
+                </header>
+                <ul class="features">
+                    <li class="icon fa-paper-plane">
+                        <h3>Arcu accumsan</h3>
+                        <p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo
+                            Aenean ligula consequat consequat.</p>
+                    </li>
+                    <li class="icon solid fa-laptop">
+                        <h3>Ac Augue Eget</h3>
+                        <p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo
+                            Aenean ligula consequat consequat.</p>
+                    </li>
+                    <li class="icon solid fa-code">
+                        <h3>Mus Scelerisque</h3>
+                        <p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo
+                            Aenean ligula consequat consequat.</p>
+                    </li>
+                    <li class="icon solid fa-headphones-alt">
+                        <h3>Mauris Imperdiet</h3>
+                        <p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo
+                            Aenean ligula consequat consequat.</p>
+                    </li>
+                    <li class="icon fa-heart">
+                        <h3>Aenean Primis</h3>
+                        <p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo
+                            Aenean ligula consequat consequat.</p>
+                    </li>
+                    <li class="icon fa-flag">
+                        <h3>Tortor Ut</h3>
+                        <p>Augue consectetur sed interdum imperdiet et ipsum. Mauris lorem tincidunt nullam amet leo
+                            Aenean ligula consequat consequat.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section id="cta" class="wrapper style4">
+            <div class="inner">
+                <header>
+                    <h2>Arcue ut vel commodo</h2>
+                    <p>Aliquam ut ex ut augue consectetur interdum endrerit imperdiet amet eleifend fringilla.</p>
+                </header>
+                <ul class="actions stacked">
+                    <li><a href="#" class="button fit primary">Activate</a></li>
+                    <li><a href="#" class="button fit">Learn More</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section id="login" class="wrapper style4">
+            <div class="inner">
+
+                <header>
+                    <h2>Entrar</h2>
+                </header>
+
+                @include('auth.login-sem-layout')
 
             </div>
-        </nav>
-        <div class="cover-richtext-tile tile-content pt-2">
+        </section>
 
-            <hr class="mt-0 mb-0">
-
-            <h1 class="tituloSemUpper pt-1 pl-2">Navegue pelas Temáticas do Parlamentum</h1>
-
-        </div>
-    </div>
-    <!-- Fim breadcrumbs -->
-
-    <!-- Início apresentação dos cards de entrada -->
-    <div class="container-fluid m-0 p-0">
-
-        <style>
-            .card {
-                transition: box-shadow 0.3s ease;
-            }
-
-            .shadow-sm {
-                box-shadow: 0 .125rem .25rem rgba(0, 0, 0, .075);
-            }
-
-            .shadow {
-                box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15);
-            }
-        </style>
-
-        <div class="pt-0 d-flex align-items-center justify-content-center">
-
-            <ol class="list-group list-group-numbered d-block d-sm-none" style="width: 90%!Important;">
-
-                @php
-                    $permissao = [];
-                @endphp
-
-                @foreach ($permissoesModulos as $permissaoModulo)
-                    @php
-                        $permissao[$permissaoModulo->cod_modulo] = $permissaoModulo->cod_permissao_modulo;
-                    @endphp
-                @endforeach
-
-                @foreach ($modulos as $modulo)
-                    @if (array_key_exists($modulo->cod_modulo, $permissao) && $permissao[$modulo->cod_modulo] >= 2)
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                            <a href="{!! route($modulo->nom_path) !!}" class="text-dark stretched-link">
-                                <div class="ms-2 me-auto" style="font-size: 1rem !Important;">
-                                    <div class="fw-bold">{{ $modulo->nom_modulo }}</div>
-                                    {{ $modulo->dsc_modulo }}
-                                    <br />
-                                    <span class="text-primary text-bold">Acessar</span>
-                                    <br />
-                                    <br />
-                                </div>
-                            </a>
-                        </li>
-                    @endif
-                @endforeach
-            </ol>
-
-        </div>
-
-        <div class="pt-4 d-flex align-items-center justify-content-center d-none d-sm-block">
-
-            <div class="row g-4">
-
-                @php
-                    $permissao = [];
-                @endphp
-
-                @foreach ($permissoesModulos as $permissaoModulo)
-                    @php
-                        $permissao[$permissaoModulo->cod_modulo] = $permissaoModulo->cod_permissao_modulo;
-                    @endphp
-                @endforeach
-
-                @foreach ($modulos as $modulo)
-                    @if (array_key_exists($modulo->cod_modulo, $permissao) && $permissao[$modulo->cod_modulo] >= 2)
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
-
-                            <div class="card shadow-none hover ml-3 mr-3 mb-2 pb-4 d-none d-sm-block"
-                                style="min-height: 11rem !Important; height: 11rem !Important; max-height: 11rem !Important; font-size: 0.9rem !Important; border-color: #e1e1e1;">
-
-                                <div class="row mt-0 pt-0 g-0">
-                                    <div class="col-4 m-0 p-0">
-                                        <a href="{!! route($modulo->nom_path) !!}" class="text-dark stretched-link">
-                                            <img src="{{ $modulo->img_modulo }}" class="img-fluid rounded-start"
-                                                alt="..."
-                                                style="min-width: 10rem !Important; width: 14rem !Important; min-height: 175px !Important; height: 175px !Important;">
-                                        </a>
-                                    </div>
-                                    <div class="col-7 mt-0 pt-0 pl-0">
-                                        <h4 class="card-title mt-0 mr-0 mb-1 pt-2 pl-2 pr-1"
-                                            style="font-size: 1.1rem !Important;">
-
-                                            <a href="{!! route($modulo->nom_path) !!}" class="text-dark stretched-link">
-                                                {{ $modulo->nom_modulo }}
-                                            </a>
-
-                                        </h4>
-
-                                        <hr class="mt-0 pt-0 pl-1">
-
-                                        <p class="card-text text-dark text-justify pt-0 pl-2"
-                                            style="height: 8rem !Important; font-size: 0.9rem !Important;">
-                                            {{ $modulo->dsc_modulo }}
-                                        </p>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    @endif
-                @endforeach
-
-            </div>
-
-        </div>
+        <!-- Footer -->
+        <footer id="footer">
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
+                <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+            </ul>
+            <ul class="copyright">
+                <li>&copy; Untitled</li>
+                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+            </ul>
+        </footer>
 
     </div>
-    <!-- Fim apresentação dos cards de entrada -->
 
-    <!-- Início funções javascript -->
-    <script>
-        // Seleciona todos os elementos com a classe 'hover'
-        var cards = document.querySelectorAll(".hover");
-
-        // Itera sobre cada elemento selecionado
-        cards.forEach(function(card) {
-            // Adiciona um ouvinte de eventos para o evento 'mouseenter'
-            card.addEventListener("mouseenter", function(event) {
-                // Remove a classe 'shadow-sm' e adiciona a classe 'shadow'
-                card.classList.remove("shadow-none");
-                card.classList.add("shadow");
-            }, false);
-
-            // Adiciona um ouvinte de eventos para o evento 'mouseleave'
-            card.addEventListener("mouseleave", function(event) {
-                // Remove a classe 'shadow' e adiciona a classe 'shadow-sm'
-                card.classList.remove("shadow");
-                card.classList.add("shadow-none");
-            }, false);
+    <script type="text/javascript" nonce="{{ request()->header('X-Nonce') }}">
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
         });
     </script>
-    <!-- Fim funções javascript -->
-@endsection
+
+    <!-- Scripts -->
+    <script src="{{ asset('landingpage/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('landingpage/js/jquery.scrollex.min.js') }}"></script>
+    <script src="{{ asset('landingpage/js/jquery.scrolly.min.js') }}"></script>
+    <script src="{{ asset('landingpage/js/browser.min.js') }}"></script>
+    <script src="{{ asset('landingpage/js/breakpoints.min.js') }}"></script>
+    <script src="{{ asset('landingpage/js/util.js') }}"></script>
+    <script src="{{ asset('landingpage/js/main.js') }}"></script>
+
+</body>
+
+</html>
+
+<!--
+ Spectral by HTML5 UP
+ html5up.net | @ajlkn
+ Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->

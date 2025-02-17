@@ -21,7 +21,7 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    protected $redirectTo = '/';
+    protected $redirectTo = '/app';
 
     protected function redirectTo()
     {
@@ -98,7 +98,7 @@ class LoginController extends Controller
         Session::flash('status', 'Você foi desconectado com sucesso.');
 
         // Redirecionar para a rota de login
-        return redirect()->route('login');
+        return redirect()->route('landingpage');
     }
 
     public function alterarEmailParaCrypt()

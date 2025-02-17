@@ -10,16 +10,11 @@
             </div>
         @endif
 
-        <style>
-            
-        </style>
-
         <div id='calendar'></div>
 
         @include('agendas.modals.create')
         @include('agendas.modals.edit')
         @include('agendas.modals.delete')
-
     </div>
 
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
@@ -36,8 +31,8 @@
                 events: "{{ route('eventos.getEvents') }}",
                 selectable: true,
                 eventDidMount: function(info) {
-                    if (!info.event.backgroundColor || info.event.backgroundColor === "") {
-                        info.event.setProp('backgroundColor', '#FFFFFF');
+                    if (info.event.color) {
+                        info.el.style.color = info.event.color;
                     }
                 },
                 eventClick: function(info) {
@@ -45,17 +40,17 @@
                     const event = info.event;
                     const modalEdit = $('#editModal');
 
-                    // Preencher todos os campos
+                    // Preenche os campos do modal de edição
                     modalEdit.find('#cod_agenda').val(event.id);
                     modalEdit.find('#dsc_titulo').val(event.title);
                     modalEdit.find('#dsc_descricao').val(event.extendedProps.description);
                     modalEdit.find('#dat_inicio').val(moment(event.start).format('YYYY-MM-DDTHH:mm'));
                     modalEdit.find('#dat_fim').val(moment(event.end).format('YYYY-MM-DDTHH:mm'));
-                    modalEdit.find('#nom_cor').val(event.backgroundColor);
-                    modalEdit.find('#dsc_url').val(event.url);
+                    modalEdit.find('#nom_cor').val(event.color);
+                    modalEdit.find('#dsc_url').val(event.extendedProps.url);
                     modalEdit.find('#cod_parlamentar').val(event.extendedProps.cod_parlamentar);
 
-                    // Configurar recorrência se existir
+                    // Configura recorrência
                     if (event.extendedProps.ind_recorrente) {
                         modalEdit.find('#ind_recorrente').prop('checked', true);
                         modalEdit.find('#frequencia').prop('disabled', false);
@@ -65,78 +60,49 @@
                     modalEdit.modal('show');
                 },
                 dateClick: function(info) {
-                    // Ajuste para usar a hora atual ao invés de 00:00
                     const clickedMoment = moment(info.date);
-                    const currentHour = clickedMoment.format('HH:mm');
-
-                    // Se for clique em dia inteiro (allDay), usar horário comercial (8:00)
-                    if (info.allDay) {
-                        clickedMoment.hour(8).minute(0);
-                    }
-
                     const formattedDateTimeInput = clickedMoment.format('YYYY-MM-DDTHH:mm');
                     document.getElementById('dat_inicio').value = formattedDateTimeInput;
 
-                    // Adiciona 1 hora para data fim
                     const endMoment = moment(clickedMoment).add(1, 'hour');
                     const formattedEndDateTimeInput = endMoment.format('YYYY-MM-DDTHH:mm');
                     document.getElementById('dat_fim').value = formattedEndDateTimeInput;
 
                     $('#createModal').modal('show');
                 },
-                eventTimeFormat: { // Formato da hora nos eventos
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    meridiem: false // Remove AM/PM
-                },
-                //Outras opções que você pode adicionar:
-                headerToolbar: { // Define os botões do cabeçalho
+                headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                eventDidMount: function(info) {
-                    const event = info.event;
-                    const description = event.extendedProps.description;
-                    if (description) {
-                        tippy(info.el, {
-                            content: description,
-                            placement: 'top',
-                            arrow: true
-                        });
-                    }
-                },
-                navLinks: true, // Habilita a navegação clicando nos dias/semanas
-                weekNumbers: true, // Mostra o número da semana
-                // ... outras opções que você queira adicionar
+                navLinks: true,
+                weekNumbers: true,
             });
             calendar.render();
         });
 
-        // script de recorrência
-        document.addEventListener('DOMContentLoaded', function() {
-            const setupRecorrencia = (formId) => {
-                const form = document.getElementById(formId);
-                if (!form) return;
+        // Função para enviar formulário via AJAX (genérica)
+        function submitForm(url, method, formData, successCallback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open(method, url, true);
+            xhr.setRequestHeader('X-CSRF-TOKEN', document.querySelector('meta[name="csrf-token"]').getAttribute('content'));
 
-                const ind_recorrente = form.querySelector('#ind_recorrente');
-                const frequencia = form.querySelector('#frequencia');
-                const div_dat_fim_recorrencia = form.querySelector('#div_dat_fim_recorrencia');
+            if (method === 'POST' || method === 'PUT') {
+                xhr.setRequestHeader('X-HTTP-Method-Override', method === 'PUT' ? 'PUT' : 'POST');
+            }
 
-                // Configuração inicial
-                frequencia.style.display = ind_recorrente.checked ? 'block' : 'none';
-                div_dat_fim_recorrencia.style.display = ind_recorrente.checked ? 'block' : 'none';
-
-                ind_recorrente.addEventListener('change', function() {
-                    frequencia.style.display = this.checked ? 'block' : 'none';
-                    div_dat_fim_recorrencia.style.display = this.checked ? 'block' : 'none';
-                    frequencia.disabled = !this.checked;
-                });
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    if (response.success) {
+                        successCallback();
+                    }
+                } else {
+                    alert('Erro: ' + xhr.responseText);
+                }
             };
 
-            // Configurar para ambos os formulários
-            setupRecorrencia('createForm');
-            setupRecorrencia('editForm');
-        });
+            xhr.send(formData);
+        }
     </script>
 @endsection

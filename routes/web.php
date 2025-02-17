@@ -9,9 +9,13 @@ use App\Http\Controllers\TabPlanosController;
 use App\Http\Controllers\TabGabineteController;
 use App\Http\Controllers\ContratoController;
 
+Route::get('/', function () {
+    return view('app');
+})->name('landingpage');
+
 Route::group(['middleware' => ['auth:sanctum', 'auth', 'check-permissao', 'trocarSenha', 'usuarioInativo']], function () {
 
-    Route::get('/', [App\Http\Controllers\TabModulosController::class, 'index'])->name('principal');
+    Route::get('app', [App\Http\Controllers\TabModulosController::class, 'index'])->name('principal');
 
     Route::post('parlamentar/{cod_parlamentar?}/{tema_selecionado?}', [App\Http\Controllers\ParlamentarController::class, 'index'])->name('parlamentar');
     Route::get('parlamentar/{cod_parlamentar?}/{tema_selecionado?}', [App\Http\Controllers\ParlamentarController::class, 'index'])->name('parlamentar');
@@ -87,6 +91,9 @@ Route::group(['middleware' => ['auth:sanctum', 'auth', 'check-permissao', 'troca
     // Início rotas da agenda
     Route::resource('agendas', \App\Http\Controllers\AgendaController::class);
     Route::get('eventos/getEvents', [\App\Http\Controllers\AgendaController::class, 'getEvents'])->name('eventos.getEvents');
+
+    Route::post('agendas/{agenda}', [\App\Http\Controllers\AgendaController::class, 'update'])->name('agendas.update');
+
     // Fim rotas da agenda
 
     // Início rotas dos relatórios de carômetros
