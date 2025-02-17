@@ -49,38 +49,112 @@
 
         <div class="pt-4 d-flex align-items-center justify-content-center d-none d-sm-block">
 
-            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+            <div class="row row-cols-1 row-cols-md-3 justify-content-center g-3">
 
-                <div class="card shadow-none hover ml-3 mr-3 mb-2 pb-4 d-none d-sm-block"
-                    style="min-height: 11rem !Important; height: 11rem !Important; max-height: 11rem !Important; font-size: 0.9rem !Important; border-color: #e1e1e1;">
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
 
-                    <div class="row mt-0 pt-0 g-0">
-                        <div class="col-4 m-0 p-0">
-                            <a href="{{ route('planos.index') }}" class="text-dark stretched-link">
-                                <img src="{{ asset('img/planos.png') }}" class="img-fluid rounded-start" alt="..."
-                                    style="min-width: 10rem !Important; width: 14rem !Important; min-height: 175px !Important; height: 175px !Important;">
-                            </a>
-                        </div>
-                        <div class="col-7 mt-0 pt-0 pl-0">
-                            <h4 class="card-title mt-0 mr-0 mb-1 pt-2 pl-2 pr-1" style="font-size: 1.1rem !Important;">
+                    <div class="card shadow-none hover ml-3 mr-3 mb-2 pb-4 d-none d-sm-block"
+                        style="min-height: 11rem !Important; height: 11rem !Important; max-height: 11rem !Important; font-size: 0.9rem !Important; border-color: #e1e1e1;">
 
+                        <div class="row mt-0 pt-0 g-0">
+                            <div class="col-4 m-0 p-0">
                                 <a href="{{ route('planos.index') }}" class="text-dark stretched-link">
-                                    1. Planos
+                                    <img src="{{ asset('img/planos.png') }}" class="img-fluid rounded-start" alt="..."
+                                        style="min-width: 10rem !Important; width: 14rem !Important; min-height: 175px !Important; height: 175px !Important;">
                                 </a>
+                            </div>
+                            <div class="col-7 mt-0 pt-0 pl-0">
+                                <h4 class="card-title mt-0 mr-0 mb-1 pt-2 pl-2 pr-1" style="font-size: 1.1rem !Important;">
 
-                            </h4>
+                                    <a href="{{ route('planos.index') }}" class="text-dark stretched-link">
+                                        1. Planos
+                                    </a>
 
-                            <hr class="mt-0 pt-0 pl-1">
+                                </h4>
 
-                            <p class="card-text text-dark text-justify pt-0 pl-2"
-                                style="height: 8rem !Important; font-size: 0.9rem !Important;">
-                                Administrar e gerenciar os planos de assinatura.
-                            </p>
+                                <hr class="mt-0 pt-0 pl-1">
 
+                                <p class="card-text text-dark text-justify pt-0 pl-2"
+                                    style="height: 8rem !Important; font-size: 0.9rem !Important;">
+                                    Administrar e gerenciar os planos de assinatura.
+                                </p>
+
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+
+                    <div class="card shadow-none hover ml-3 mr-3 mb-2 pb-4 d-none d-sm-block"
+                        style="min-height: 11rem !Important; height: 11rem !Important; max-height: 11rem !Important; font-size: 0.9rem !Important; border-color: #e1e1e1;">
+
+                        <div class="row mt-0 pt-0 g-0">
+                            <div class="col-4 m-0 p-0">
+                                <a href="{{ route('gabinetes.index') }}" class="text-dark stretched-link">
+                                    <img src="{{ asset('img/gabinetes.png') }}" class="img-fluid rounded-start"
+                                        alt="..."
+                                        style="min-width: 10rem !Important; width: 14rem !Important; min-height: 175px !Important; height: 175px !Important;">
+                                </a>
+                            </div>
+                            <div class="col-7 mt-0 pt-0 pl-0">
+                                <h4 class="card-title mt-0 mr-0 mb-1 pt-2 pl-2 pr-1" style="font-size: 1.1rem !Important;">
+
+                                    <a href="{{ route('gabinetes.index') }}" class="text-dark stretched-link">
+                                        2. Gabinetes
+                                    </a>
+
+                                </h4>
+
+                                <hr class="mt-0 pt-0 pl-1">
+
+                                <p class="card-text text-dark text-justify pt-0 pl-2"
+                                    style="height: 8rem !Important; font-size: 0.9rem !Important;">
+                                    Administrar e gerenciar Gabinetes.
+                                </p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-4 col-xxl-3">
+
+                    <div class="card shadow-none hover ml-3 mr-3 mb-2 pb-4 d-none d-sm-block"
+                        style="min-height: 11rem !Important; height: 11rem !Important; max-height: 11rem !Important; font-size: 0.9rem !Important; border-color: #e1e1e1;">
+
+                        <div class="row mt-0 pt-0 g-0">
+                            <div class="col-4 m-0 p-0">
+                                <a href="{{ route('contratos.index') }}" class="text-dark stretched-link">
+                                    <img src="{{ asset('img/contratos.png') }}" class="img-fluid rounded-start"
+                                        alt="..."
+                                        style="min-width: 10rem !Important; width: 14rem !Important; min-height: 175px !Important; height: 175px !Important;">
+                                </a>
+                            </div>
+                            <div class="col-7 mt-0 pt-0 pl-0">
+                                <h4 class="card-title mt-0 mr-0 mb-1 pt-2 pl-2 pr-1" style="font-size: 1.1rem !Important;">
+
+                                    <a href="{{ route('contratos.index') }}" class="text-dark stretched-link">
+                                        3. Contratos
+                                    </a>
+
+                                </h4>
+
+                                <hr class="mt-0 pt-0 pl-1">
+
+                                <p class="card-text text-dark text-justify pt-0 pl-2"
+                                    style="height: 8rem !Important; font-size: 0.9rem !Important;">
+                                    Administrar e gerenciar os COntratos.
+                                </p>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
 
         </div>

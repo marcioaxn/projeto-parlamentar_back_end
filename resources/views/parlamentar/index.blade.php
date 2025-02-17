@@ -51,7 +51,7 @@
 
     <div class="row" id="div1" style="display: none;">
 
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mb-3 d-print-none">
+        {{-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mb-3 d-print-none">
 
             {!! Form::open(['method' => 'post', 'url' => route('parlamentar')]) !!}
             <div class="card border border-light" style="">
@@ -121,8 +121,10 @@
                 </div>
             </div>
 
-        </div>
-        {!! Form::close() !!}
+            {!! Form::close() !!}
+
+        </div> --}}
+
         @php
             /* Início da parte dos dados do parlamentar */
         @endphp

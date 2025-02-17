@@ -27,52 +27,29 @@ Associação com parlamentares: Os eventos serão associados a parlamentares esp
 Recorrência de eventos: Suporte para eventos que se repetem em intervalos regulares (diariamente, semanalmente, mensalmente, etc.).
 Cores para identificação: Uso de cores para categorizar ou destacar diferentes tipos de eventos.
 
+3. Fluxo de Trabalho do Módulo Agenda
+Criação de Eventos:
 
-4. Checklist:
+Campos obrigatórios: Título, data de início, parlamentar associado.
 
-4.1.    Construir o arquivo de migration da tab_agenda:
-        cod_agenda (UUID)
-        dsc_titulo (string)
-        dsc_descricao (text)
-        dat_inicio (timestamp)
-        dat_fim (timestamp)
-        nom_cor (string)
-        ind_recorrente (boolean)
-        dsc_url (string)
-        cod_parlamentar (FK integer)
-        timestamps()
-        softDeletes()
+Opcionais: Descrição, local, URL, recorrência (regras RRULE).
 
+Visualização:
 
-4.2.    Instrução artisan para criar o arquivo de migration: php artisan make:migration create_tab_agenda_table
-4.3.    Instrução artisan para executar a migration: php artisan migrate --path=database/migrations/nome_do_arquivo_da_migration.php
-4.4.    Construção do Model TabAgenda:
-        Definir a chave primária como UUID.
-        Definir os casts para os tipos de dados (especialmente dat_inicio e dat_fim para datetime).
-        Definir os relacionamentos (relationship) necessários.
+Filtragem por parlamentar, cores por tipo de evento (via nom_cor).
 
+Recorrência:
 
-5.  Construção do Controller AgendaController:
+Armazenamento de regras em dsc_rrule (ex: FREQ=WEEKLY;INTERVAL=1).
 
-    Métodos: index, create, store, edit, update, destroy.
-    Lógica para lidar com as operações CRUD.
-    Lógica para formatar os dados para o FullCalendar (formato JSON).
+Integrações:
+
+Uso do método toEventArray() para compatibilidade com o FullCalendar.
+
+Melhorias Futuras
+Notificações por e-mail para eventos próximos.
+
+Autenticação e permissões por cargo (ex: assessor vs. parlamentar).
 
 
-6.  Sugestão de route:
 
-Route::resource('agendas', AgendaController::class);
-
-
-7.  Construção da blade index (resources/views/agendas/index.blade.php):
-
-Inclusão das CDNs do FullCalendar e suas dependências.
-Estrutura HTML para o calendário.
-Código JavaScript para inicializar o FullCalendar e carregar os eventos via AJAX.
-Formulários modais para inserção, edição e exclusão de eventos.
-Tratamento de Recorrência (ind_recorrente): Implementar a lógica para eventos recorrentes no FullCalendar.
-Tratamento de Cores (nom_cor): Implementar a lógica para exibir eventos com cores diferentes no calendário.
-Validação de Formulários: Usar Form Requests para validar os dados dos formulários.
-Tratamento de Erros e Mensagens: Exibir mensagens de erro e sucesso para o usuário.
-
-Essa é uma mini documentação relativo a um projeto Laravel. Poderia me auxiliar na construção desse novo módulo de Agenda?

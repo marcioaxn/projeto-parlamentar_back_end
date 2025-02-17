@@ -1,4 +1,4 @@
-<div class="container center mt-0 pt-0">
+<div class="container center">
     <div class="row"
         style="font-family: 'Montserrat', sans-serif!Important; margin: 0px!Important; padding: 0px!Important;">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 textoPaginaLogin text-justify mb-4">

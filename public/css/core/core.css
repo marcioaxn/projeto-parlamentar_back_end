@@ -20902,10 +20902,6 @@ tr.is-selected td {
     background-color: var(--selected);
 }
 
-tr:hover td {
-    background-image: linear-gradient(rgba(var(--color-rgb), var(--hover)), rgba(var(--color-rgb), var(--hover)));
-}
-
 tbody th,
 tbody td {
     border-bottom: var(--table-border-width) var(--table-border-style) var(--table-border-color);

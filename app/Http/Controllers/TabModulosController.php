@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Auth;
 use App\Models\TabModulos;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Session;
 
 use Illuminate\Http\Request;
 
@@ -25,24 +27,35 @@ class TabModulosController extends Controller
             $mensagem = 'Você não possui gabinetes ativos.';
             return view('errors.index')
                 ->with('mensagem', $mensagem);
+        } else {
+
+            $this->getCodParlamentar($gabinetesAtivos->first()->cod_parlamentar);
         }
-
-        // foreach ($gabinetesAtivos as $gabinete) {
-        //     dd($gabinete);
-        // }
-
-        // dd($user, $gabinetesAtivos, now());
 
         \Session::put('bln_administrar_usuarios', $user->perfil->bln_administrar_usuarios);
         \Session::put('bln_acesso_inrestrito', $user->perfil->bln_acesso_inrestrito);
 
-        $permissoesModulos = $user->permissoesModulos;
+        $codParlamentar = Session::get('cod_parlamentar');
 
-        $modulos = $this->getModulos();
+        return redirect()->route('parlamentar', ['cod_parlamentar' => $codParlamentar]);
+    }
 
-        return view('app')
-            ->with('permissoesModulos', $permissoesModulos)
-            ->with('modulos', $modulos);
+    public function getCodParlamentar($codParlamentar = null)
+    {
+
+        dd("Aqui 8");
+
+        if (isset($codParlamentar) && !empty($codParlamentar)) {
+            Session::forget('cod_parlamentar');
+
+            Session::put('cod_parlamentar', $codParlamentar, 7200);
+        } else {
+            Session::forget('cod_parlamentar');
+
+            Session::put('cod_parlamentar', null, 7200);
+        }
+
+        // return redirect()->route('principal');
     }
 
     public function getModulos()

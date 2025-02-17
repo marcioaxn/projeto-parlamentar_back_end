@@ -27,6 +27,7 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Auth\Passwords\CanResetPassword;
 
 use App\Http\Controllers\TabParlamentaresEstaduaisController;
+use App\Http\Controllers\GetOnController;
 
 class ParlamentarController extends Controller
 {
@@ -108,6 +109,11 @@ class ParlamentarController extends Controller
         return new TabParlamentaresEstaduaisController;
     }
 
+    public function instanciarGetOnController()
+    {
+        return new GetOnController;
+    }
+
     public function index(Request $request, $codParlamentar = null, $temaSelecionado = null)
     {
 
@@ -151,7 +157,11 @@ class ParlamentarController extends Controller
 
         $getParlamentaresEstaduais = $tabParlamentarEstadual->getParlamentaresEstaduais();
 
-        // Início da parte de instanciar os Controllers para operacionalizar os dados parlamentares
+        $tabAgendas = $this->instanciarGetOnController();
+
+        $agendas = $tabAgendas->getAgendaPorParlamentarHoje($codParlamentar);
+
+        // Fim da parte de instanciar os Controllers para operacionalizar os dados parlamentares
 
         $atendimentos = [];
 
@@ -208,7 +218,6 @@ class ParlamentarController extends Controller
                                     $parlamentarEstadualSelecionado = true;
 
                                     $tse = $tabTseConsolidada->getMunicipiosDeputadoEstadulDistrital($getParlamentar->sgl_uf_representante, $cod_parlamentar);
-
                                 } else {
                                     $getParlamentar = $tabParlamentaresController->getParlamentar($value);
                                     $parlamentarEstadualSelecionado = false;
@@ -229,7 +238,6 @@ class ParlamentarController extends Controller
                                         if (!$parlamentarEstadualSelecionado) {
                                             $tse = $tabTseConsolidadaSenadoFederal->getTsePorNomeCompleto($getParlamentar->sgl_uf_representante, $nomParlamentarCompletoMaiuculo);
                                         }
-
                                     }
                                     // Fim da parte para pegar os dados do TSE
 
@@ -293,6 +301,7 @@ class ParlamentarController extends Controller
             ->with('getParlamentaresEstaduais', $getParlamentaresEstaduais)
             ->with('temaSelecionado', $temaSelecionado)
             ->with('getParlamentar', $getParlamentar)
+            ->with('agendas', $agendas)
             ->with('parlamentarEstadualSelecionado', $parlamentarEstadualSelecionado)
             ->with('dteAtualizacaoCD', $dteAtualizacaoCD)
             ->with('dteAtualizacaoSF', $dteAtualizacaoSF)

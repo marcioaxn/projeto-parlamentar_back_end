@@ -19,15 +19,16 @@ class CreateTabAgendaTable extends Migration
             $table->text('dsc_descricao')->nullable();
             $table->timestamp('dat_inicio');
             $table->timestamp('dat_fim');
-            $table->string('nom_cor')->nullable();
+            $table->string('dsc_local')->nullable();
+            $table->string('nom_cor')->default('#3788D8');
             $table->boolean('ind_recorrente')->default(false);
             $table->string('dsc_url')->nullable();
+            $table->text('dsc_rrule')->nullable();
             $table->integer('cod_parlamentar');
             $table->foreign('cod_parlamentar')
-                ->references('id')
+                ->references('cod_parlamentar')
                 ->on('tab_parlamentares')
                 ->onDelete('cascade');
-            $table->string('dsc_rrule')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
