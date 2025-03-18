@@ -37,13 +37,11 @@ class TabModulosController extends Controller
 
         $codParlamentar = Session::get('cod_parlamentar');
 
-        return redirect()->route('parlamentar', ['cod_parlamentar' => $codParlamentar]);
+        return redirect()->route('parlamentar');
     }
 
     public function getCodParlamentar($codParlamentar = null)
     {
-
-        dd("Aqui 8");
 
         if (isset($codParlamentar) && !empty($codParlamentar)) {
             Session::forget('cod_parlamentar');

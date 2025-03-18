@@ -907,7 +907,7 @@ function abreviarSituacaoConvenio($situacao = '')
 
 function legenda()
 {
-    ?>
+?>
     <div class="row">
         <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
             <h6>Legenda:</h6>
@@ -960,7 +960,7 @@ function legenda()
             </ul>
         </div> -->
     </div>
-    <?php
+<?php
 }
 
 function abreviacaoCasaParlamentar($casa = '')
@@ -4251,8 +4251,31 @@ function alterarDescricaoLideranca($descricaoTipoLideranca = null)
         default:
             $descricaoTipoLideranca = $descricaoTipoLideranca;
             break;
-
     }
 
     return $descricaoTipoLideranca;
+}
+
+function iconeServicosGabiente($temaServico = null)
+{
+    switch ($temaServico) {
+        case 'Contatos':
+            $icon = 'fas fa-phone';
+            break;
+        case 'Pleitos/Demandas/Solicitações':
+            $icon = 'fas fa-tasks';
+            break;
+        case 'Agenda/Audiências/Eventos':
+            $icon = 'fas fa-calendar-alt';
+            break;
+        case 'TSE':
+            $icon = 'fas fa-users';
+            break;
+
+        default:
+            $icon = '';
+            break;
+    }
+
+    return $icon;
 }

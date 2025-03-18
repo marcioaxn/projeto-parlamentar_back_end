@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-<html>
-
 <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store,
-      must-revalidate">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>{{ env('APP_NAME_CURTO') ?? 'Parlamentum' }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ env('APP_NAME_CURTO') ?? 'Parlamentum' }}</title>
 
     <!-- Início ICON Brasil -->
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('img/logo_02_transparente.png') }}" />
@@ -31,14 +27,13 @@
 
         <!-- Header -->
         <header id="header" class="alt">
-
             <h1>
-                <a href="index.html" style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
+                <a href="{{ url('/') }}"
+                    style="display: flex; align-items: center; gap: 8px; text-decoration: none;">
                     <img src="{{ URL::asset('/img/logo_02_transparente.png') }}" alt="logo" height="33">
                     {{ env('APP_NAME_CURTO') ?? 'Parlamentum' }}
                 </a>
             </h1>
-
         </header>
 
         <!-- Banner -->
@@ -47,8 +42,7 @@
                 <h2>{{ env('APP_NAME_CURTO') ?? 'Parlamentum' }}</h2>
                 <p>O Parlamentum otimiza o trabalho parlamentar, <br />proporcionando um hub de informações, gerando
                     insights sobre a base eleitoral.<br />Mais eficiência, melhores decisões e atendimento
-                    aprimorado
-                    à população.</p>
+                    aprimorado à população.</p>
                 <ul class="actions special">
                     <li><a href="{{ route('login') }}" class="button primary">Entrar</a></li>
                 </ul>
@@ -59,7 +53,9 @@
         <!-- Two -->
         <section id="two" class="wrapper alt style2">
             <section class="spotlight">
-                <div class="image"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTJ8fGV2ZW50JTIwbWVldGluZ3xlbnwwfHwwfHx8Mg%3D%3D" alt="" /></div>
+                <div class="image"><img
+                        src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTJ8fGV2ZW50JTIwbWVldGluZ3xlbnwwfHwwfHx8Mg%3D%3D"
+                        alt="" /></div>
                 <div class="content">
                     <h2>Agenda parlamentar</h2>
                     <p>Aliquam ut ex ut augue consectetur interdum. Donec hendrerit imperdiet. Mauris eleifend fringilla
@@ -67,7 +63,9 @@
                 </div>
             </section>
             <section class="spotlight">
-                <div class="image"><img src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" /></div>
+                <div class="image"><img
+                        src="https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="" /></div>
                 <div class="content">
                     <h2>Tortor dolore feugiat<br />
                         elementum magna</h2>
@@ -76,7 +74,9 @@
                 </div>
             </section>
             <section class="spotlight">
-                <div class="image"><img src="https://images.unsplash.com/photo-1541140911322-98afe66ea6da?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="" /></div>
+                <div class="image"><img
+                        src="https://images.unsplash.com/photo-1541140911322-98afe66ea6da?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="" /></div>
                 <div class="content">
                     <h2>Augue eleifend aliquet<br />
                         sed condimentum</h2>
@@ -146,13 +146,11 @@
         <!-- CTA -->
         <section id="login" class="wrapper style4">
             <div class="inner">
-
                 <header>
                     <h2>Entrar</h2>
                 </header>
 
                 @include('auth.login-sem-layout')
-
             </div>
         </section>
 
@@ -166,12 +164,21 @@
                 <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
             </ul>
             <ul class="copyright">
-                <li>&copy; Untitled</li>
+                <li>&copy; {{ date('Y') }} {{ env('APP_NAME_CURTO') ?? 'Parlamentum' }}</li>
                 <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
             </ul>
         </footer>
 
     </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('landingpage/js/jquery.min.js') }}"></script>
+    <script src="{{ asset('landingpage/js/jquery.scrollex.min.js') }}"></script>
+    <script src="{{ asset('landingpage/js/jquery.scrolly.min.js') }}"></script>
+    <script src="{{ asset('landingpage/js/browser.min.js') }}"></script>
+    <script src="{{ asset('landingpage/js/breakpoints.min.js') }}"></script>
+    <script src="{{ asset('landingpage/js/util.js') }}"></script>
+    <script src="{{ asset('landingpage/js/main.js') }}"></script>
 
     <script type="text/javascript" nonce="{{ request()->header('X-Nonce') }}">
         $(document).ready(function() {
@@ -182,15 +189,6 @@
             });
         });
     </script>
-
-    <!-- Scripts -->
-    <script src="{{ asset('landingpage/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('landingpage/js/jquery.scrollex.min.js') }}"></script>
-    <script src="{{ asset('landingpage/js/jquery.scrolly.min.js') }}"></script>
-    <script src="{{ asset('landingpage/js/browser.min.js') }}"></script>
-    <script src="{{ asset('landingpage/js/breakpoints.min.js') }}"></script>
-    <script src="{{ asset('landingpage/js/util.js') }}"></script>
-    <script src="{{ asset('landingpage/js/main.js') }}"></script>
 
 </body>
 

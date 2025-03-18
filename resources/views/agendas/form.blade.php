@@ -42,18 +42,6 @@
     </div>
 
     <div class="col-md-6 mb-3">
-        <label for="cod_parlamentar" class="form-label">Parlamentar *</label>
-        <select name="cod_parlamentar" id="cod_parlamentar" class="form-select" required>
-            <option value="">Selecione um Parlamentar</option>
-            @foreach ($parlamentares as $parlamentar)
-                <option value="{{ $parlamentar->cod_parlamentar }}">
-                    {{ $parlamentar->nom_parlamentar }}
-                </option>
-            @endforeach
-        </select>
-    </div>
-
-    <div class="col-md-6 mb-3">
         <label for="frequencia" class="form-label">Frequência da Recorrência</label>
         <select name="frequencia" id="frequencia" class="form-select" disabled>
             <option value="DAILY">Diária</option>

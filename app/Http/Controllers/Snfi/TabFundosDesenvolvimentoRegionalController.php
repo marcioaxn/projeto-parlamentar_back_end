@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Snfi;
 
-use App\Http\Controllers\Controller; // Adiciona a importação da classe Controller
+use App\Http\Controllers\Controller;
 use App\Models\Snfi\TabFundosDesenvolvimentoRegional;
 use App\Models\Snfi\TabEstruturaTemasFundosDesenvolvimentoRegional;
 use App\Models\TabIndicadoresEstados;

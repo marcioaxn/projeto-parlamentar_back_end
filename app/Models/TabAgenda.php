@@ -21,6 +21,7 @@ class TabAgenda extends Model
 
     // Campos que podem ser preenchidos em massa (mass assignment)
     protected $fillable = [
+        'cod_agenda',
         'dsc_titulo',
         'dsc_descricao',
         'dat_inicio',
@@ -29,15 +30,15 @@ class TabAgenda extends Model
         'nom_cor',
         'ind_recorrente',
         'dsc_url',
-        'cod_parlamentar',
-        'dsc_rrule'
+        'dsc_rrule',
+        'cod_parlamentar'
     ];
 
     // Conversão de tipos (casting)
     protected $casts = [
         'dat_inicio' => 'datetime',
         'dat_fim' => 'datetime',
-        'ind_recorrente' => 'boolean',
+        'ind_recorrente' => 'boolean'
     ];
 
     // Eventos do Eloquent (boot)
