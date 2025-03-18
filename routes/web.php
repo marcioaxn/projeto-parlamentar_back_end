@@ -17,8 +17,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth', 'check-permissao', 'troca
 
     Route::get('app', [App\Http\Controllers\TabModulosController::class, 'index'])->name('principal');
 
-    Route::post('parlamentar/{cod_parlamentar?}/{tema_selecionado?}', [App\Http\Controllers\ParlamentarController::class, 'index'])->name('parlamentar');
-    Route::get('parlamentar/{cod_parlamentar?}/{tema_selecionado?}', [App\Http\Controllers\ParlamentarController::class, 'index'])->name('parlamentar');
+    Route::match(['get', 'post'], 'gabinete', [App\Http\Controllers\ParlamentarController::class, 'index'])->name('parlamentar');
 
     Route::get('gravar-celular-parlamentar/{num_celular}/{cod_parlamentar}/{cod_celular?}/{bln_excluir?}', [App\Http\Controllers\TabParlamentarCelularController::class, 'store'])->name('parlametar.celular.store');
 
@@ -89,12 +88,36 @@ Route::group(['middleware' => ['auth:sanctum', 'auth', 'check-permissao', 'troca
         ->where('sgl_partido', '.*')->name('relatorios.carometro.uf.word');
 
     // Início rotas da agenda
-    Route::resource('agendas', \App\Http\Controllers\AgendaController::class);
-    Route::get('eventos/getEvents', [\App\Http\Controllers\AgendaController::class, 'getEvents'])->name('eventos.getEvents');
+    // Route::resource('agendas', \App\Http\Controllers\AgendaController::class);
+    // Route::get('eventos/getEvents', [\App\Http\Controllers\AgendaController::class, 'getEvents'])->name('eventos.getEvents');
 
-    Route::post('agendas/{agenda}', [\App\Http\Controllers\AgendaController::class, 'update'])->name('agendas.update');
+    // Route::post('agendas/{agenda}', [\App\Http\Controllers\AgendaController::class, 'update'])->name('agendas.update');
+
+    Route::prefix('agenda')->group(function () {
+        Route::get('/listar', [\App\Http\Controllers\AgendaController::class, 'listar'])->name('agenda.listar');
+        Route::post('/salvar', [\App\Http\Controllers\AgendaController::class, 'salvar'])->name('agenda.salvar');
+        Route::put('/atualizar', [\App\Http\Controllers\AgendaController::class, 'atualizar'])->name('agenda.atualizar');
+        Route::delete('/excluir', [\App\Http\Controllers\AgendaController::class, 'excluir'])->name('agenda.excluir');
+    });
 
     // Fim rotas da agenda
+
+    // Route::prefix('contatos')->group(function () {
+    //     Route::get('/', [\App\Http\Controllers\Contatos\ContactController::class, 'view'])->name('contatos.view');
+    //     Route::get('/data', [\App\Http\Controllers\Contatos\ContactController::class, 'index'])->name('contatos.index');
+    //     Route::post('/store', [\App\Http\Controllers\Contatos\ContactController::class, 'store'])->name('contatos.store');
+    //     Route::get('/{cod_contato}', [\App\Http\Controllers\Contatos\ContactController::class, 'show'])->name('contatos.show');
+    //     Route::post('/update/{cod_contato}', [\App\Http\Controllers\Contatos\ContactController::class, 'update'])->name('contatos.update');
+    //     Route::post('/destroy/{cod_contato}', [\App\Http\Controllers\Contatos\ContactController::class, 'destroy'])->name('contatos.destroy');
+    // });
+
+    Route::prefix('contatos')->group(function () {
+        Route::get('/listar', [\App\Http\Controllers\Contatos\ContatosController::class, 'listar'])->name('contatos.listar');
+        Route::get('/obter', [\App\Http\Controllers\Contatos\ContatosController::class, 'obter'])->name('contatos.obter');
+        Route::post('/salvar', [\App\Http\Controllers\Contatos\ContatosController::class, 'salvar'])->name('contatos.salvar');
+        Route::put('/atualizar', [\App\Http\Controllers\Contatos\ContatosController::class, 'atualizar'])->name('contatos.atualizar');
+        Route::delete('/excluir', [\App\Http\Controllers\Contatos\ContatosController::class, 'excluir'])->name('contatos.excluir');
+    });
 
     // Início rotas dos relatórios de carômetros
     Route::match(['get', 'post'], 'relatorios/carometro/partido/{sgl_partido}/{dsc_casa?}/{sgl_uf_representante?}', [\App\Http\Controllers\RelatoriosController::class, 'carometroPorPartido'])

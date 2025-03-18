@@ -114,8 +114,13 @@ class ParlamentarController extends Controller
         return new GetOnController;
     }
 
-    public function index(Request $request, $codParlamentar = null, $temaSelecionado = null)
+    public function index(Request $request)
     {
+
+        $codParlamentar = Session('cod_parlamentar');
+        $cod_parlamentar = $codParlamentar;
+
+        $temaSelecionado = null;
 
         // Início da parte de consulta ao perfil de acesso do cliente
         $user = Auth::user();
@@ -262,7 +267,7 @@ class ParlamentarController extends Controller
         // Fim loop para pecorrer as variáveis de consulta
 
         // Início da parte da construção da matriz com os temas que serão visualizados na página da consulta parlamentar'
-        $temas = ['Observações', 'Atendimento', 'TSE', 'Carteira de Investimento'];
+        $temas = ['Contatos', 'Pleitos/Demandas/Solicitações', 'Agenda/Audiências/Eventos', 'TSE'];
         // Fim da parte da construção da matriz com os temas que serão visualizados na página da consulta parlamentar'
 
         // Início da parte dos atendimentos

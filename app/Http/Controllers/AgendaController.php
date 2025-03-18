@@ -8,145 +8,207 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use RRule\RRule;
+use Illuminate\Support\Facades\Validator;
 use Session;
 
 class AgendaController extends Controller
 {
-    public function index()
+    public function listar()
     {
-
-        $sessoesAtivas = Session::get('gabinete');
-
-        dd($sessoesAtivas);
-
-        $agendas = TabAgenda::with('parlamentar')->get(); // Carrega os relacionamentos
-
-        $parlamentares = \App\Models\TabParlamentares::all();
-
-        return view('agendas.index', compact('agendas', 'parlamentares'));
-    }
-
-    public function create()
-    {
-        // Aqui você pode passar dados necessários para o formulário de criação, como parlamentares, etc.
-        $parlamentares = \App\Models\TabParlamentares::all(); // Exemplo: buscando todos os parlamentares
-        return view('agendas.create', compact('parlamentares'));
-    }
-
-    public function store(AgendaRequest $request)
-    {
-        DB::beginTransaction();
         try {
-            $data = $request->validated();
+            $codParlamentar = Session::get('cod_parlamentar');
 
-            // Geração de RRule para recorrência
-            if ($request->ind_recorrente) {
-                $rruleParams = $this->buildRRuleParams($request);
-                $data['dsc_rrule'] = (new RRule($rruleParams))->rfcString();
-            } else {
-                $data['dsc_rrule'] = null; // Limpa se não for recorrente
+            $agendas = TabAgenda::where('cod_parlamentar', $codParlamentar)
+                ->get()
+                ->map(function ($agenda) {
+                    return [
+                        'id' => $agenda->cod_agenda,
+                        'title' => $agenda->dsc_titulo,
+                        'start' => $agenda->dat_inicio,
+                        'end' => $agenda->dat_fim,
+                        'backgroundColor' => $agenda->nom_cor,
+                        'borderColor' => $agenda->nom_cor,
+                        'extendedProps' => [
+                            'descricao' => $agenda->dsc_descricao,
+                            'local' => $agenda->dsc_local,
+                            'url' => $agenda->dsc_url,
+                            'recorrente' => $agenda->ind_recorrente
+                        ]
+                    ];
+                });
+
+            return response()->json($agendas);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Salvar novo evento
+     */
+    public function salvar(Request $request)
+    {
+        try {
+            // Validação dos dados com mensagens customizadas
+            $validator = Validator::make($request->all(), [
+                'dsc_titulo' => 'required|string|max:255',
+                'dat_inicio' => 'required|date',
+                'dat_fim' => 'required|date|after_or_equal:dat_inicio',
+                'dsc_descricao' => 'nullable|string',
+                'dsc_local' => 'nullable|string|max:255',
+                'nom_cor' => 'nullable|string|max:7',
+            ], [
+                'dsc_titulo.required' => 'O campo Título é obrigatório',
+                'dat_inicio.required' => 'O campo Data de Início é obrigatório',
+                'dat_fim.required' => 'O campo Data de Fim é obrigatório',
+                'dat_fim.after_or_equal' => 'A Data de Fim deve ser igual ou posterior à Data de Início'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => $validator->errors(),
+                    'message' => 'Campos obrigatórios não preenchidos'
+                ], 422);
             }
 
-            $agenda = TabAgenda::create($data);
-            DB::commit();
+            // Criar nova agenda
+            $agenda = new TabAgenda();
+            $agenda->dsc_titulo = $request->dsc_titulo;
+            $agenda->dat_inicio = $request->dat_inicio;
+            $agenda->dat_fim = $request->dat_fim;
+            $agenda->dsc_descricao = $request->dsc_descricao;
+            $agenda->dsc_local = $request->dsc_local;
+            $agenda->nom_cor = $request->nom_cor;
+            $agenda->ind_recorrente = $request->has('ind_recorrente') ? $request->ind_recorrente : false;
+            $agenda->dsc_url = $request->dsc_url;
+            $agenda->cod_parlamentar = Session::get('cod_parlamentar');
+            $agenda->save();
 
             return response()->json([
-                'success' => true,
-                'message' => 'Evento criado com sucesso!'
+                'status' => 'success',
+                'message' => 'Agenda criada com sucesso',
+                'agenda' => $agenda
             ]);
         } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Erro ao criar evento: ' . $e->getMessage());
             return response()->json([
-                'success' => false,
-                'message' => 'Erro ao criar evento. Detalhes: ' . $e->getMessage()
+                'status' => 'error',
+                'message' => 'Erro ao salvar agenda: ' . $e->getMessage()
             ], 500);
         }
     }
 
-    private function buildRRuleParams(Request $request): array
+    /**
+     * Atualizar evento existente
+     */
+    public function atualizar(Request $request)
     {
-        $params = [
-            'freq' => $request->frequencia,
-            'dtstart' => Carbon::parse($request->dat_inicio)->setTimezone('UTC')->toDateTimeString(),
-        ];
-
-        if ($request->filled('dat_fim_recorrencia')) {
-            $params['until'] = Carbon::parse($request->dat_fim_recorrencia)->setTimezone('UTC')->toDateTimeString();
-        }
-
-        return $params;
-    }
-
-    public function getEvents(Request $request)
-    {
-        $events = TabAgenda::all()->map(function ($event) {
-            return [
-                'id' => $event->cod_agenda,
-                'title' => $event->dsc_titulo,
-                'start' => $event->dat_inicio->toIso8601String(),
-                'end' => $event->dat_fim->toIso8601String(),
-                'backgroundColor' => $event->nom_cor, // Corrigido para background
-                'url' => $event->dsc_url, // Usando o campo URL corretamente
-                'extendedProps' => [
-                    'cod_parlamentar' => $event->cod_parlamentar,
-                    'ind_recorrente' => $event->ind_recorrente,
-                    'description' => $event->dsc_descricao
-                ]
-            ];
-        });
-
-        return response()->json($events);
-    }
-
-    public function update(AgendaRequest $request, TabAgenda $agenda)
-    {
-        DB::beginTransaction();
         try {
-            $data = $request->validated();
+            // Validação dos dados com mensagens customizadas
+            $validator = Validator::make($request->all(), [
+                'cod_agenda' => 'required|exists:tab_agenda,cod_agenda',
+                'dsc_titulo' => 'required|string|max:255',
+                'dat_inicio' => 'required|date',
+                'dat_fim' => 'required|date|after_or_equal:dat_inicio',
+                'dsc_descricao' => 'nullable|string',
+                'dsc_local' => 'nullable|string|max:255',
+                'nom_cor' => 'nullable|string|max:7',
+            ], [
+                'cod_agenda.required' => 'ID da agenda é obrigatório',
+                'cod_agenda.exists' => 'Agenda não encontrada',
+                'dsc_titulo.required' => 'O campo Título é obrigatório',
+                'dat_inicio.required' => 'O campo Data de Início é obrigatório',
+                'dat_fim.required' => 'O campo Data de Fim é obrigatório',
+                'dat_fim.after_or_equal' => 'A Data de Fim deve ser igual ou posterior à Data de Início'
+            ]);
 
-            // Geração de RRule para recorrência
-            if ($request->ind_recorrente) {
-                $rruleParams = $this->buildRRuleParams($request);
-                $data['dsc_rrule'] = (new RRule($rruleParams))->rfcString();
-            } else {
-                $data['dsc_rrule'] = null; // Limpa se não for recorrente
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => $validator->errors(),
+                    'message' => 'Campos obrigatórios não preenchidos'
+                ], 422);
             }
 
-            $agenda->update($data);
-            DB::commit();
+            // Buscar agenda existente
+            $agenda = TabAgenda::findOrFail($request->cod_agenda);
+
+            // Verificar se pertence ao parlamentar logado
+            if ($agenda->cod_parlamentar != Session::get('cod_parlamentar')) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Você não tem permissão para editar esta agenda'
+                ], 403);
+            }
+
+            // Atualizar dados
+            $agenda->dsc_titulo = $request->dsc_titulo;
+            $agenda->dat_inicio = $request->dat_inicio;
+            $agenda->dat_fim = $request->dat_fim;
+            $agenda->dsc_descricao = $request->dsc_descricao;
+            $agenda->dsc_local = $request->dsc_local;
+            $agenda->nom_cor = $request->nom_cor;
+            $agenda->ind_recorrente = $request->has('ind_recorrente') ? $request->ind_recorrente : false;
+            $agenda->dsc_url = $request->dsc_url;
+            $agenda->save();
 
             return response()->json([
-                'success' => true,
-                'message' => 'Evento atualizado com sucesso!'
+                'status' => 'success',
+                'message' => 'Agenda atualizada com sucesso',
+                'agenda' => $agenda
             ]);
         } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Erro ao atualizar evento: ' . $e->getMessage());
             return response()->json([
-                'success' => false,
-                'message' => 'Erro ao atualizar evento. Detalhes: ' . $e->getMessage()
+                'status' => 'error',
+                'message' => 'Erro ao atualizar agenda: ' . $e->getMessage()
             ], 500);
         }
     }
 
-    public function destroy(TabAgenda $agenda)
+    /**
+     * Excluir evento
+     */
+    public function excluir(Request $request)
     {
-        DB::beginTransaction();
         try {
+            // Validação dos dados
+            $validator = Validator::make($request->all(), [
+                'cod_agenda' => 'required|exists:tab_agenda,cod_agenda'
+            ], [
+                'cod_agenda.required' => 'ID da agenda é obrigatório',
+                'cod_agenda.exists' => 'Agenda não encontrada'
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 'error',
+                    'errors' => $validator->errors(),
+                    'message' => 'Erro de validação'
+                ], 422);
+            }
+
+            // Buscar agenda existente
+            $agenda = TabAgenda::findOrFail($request->cod_agenda);
+
+            // Verificar se pertence ao parlamentar logado
+            if ($agenda->cod_parlamentar != Session::get('cod_parlamentar')) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Você não tem permissão para excluir esta agenda'
+                ], 403);
+            }
+
+            // Excluir agenda
             $agenda->delete();
-            DB::commit();
 
             return response()->json([
-                'success' => true,
-                'message' => 'Evento excluído com sucesso!'
+                'status' => 'success',
+                'message' => 'Agenda excluída com sucesso'
             ]);
         } catch (\Exception $e) {
-            DB::rollBack();
-            Log::error('Erro ao excluir evento: ' . $e->getMessage());
             return response()->json([
-                'success' => false,
-                'message' => 'Erro ao excluir evento. Detalhes: ' . $e->getMessage()
+                'status' => 'error',
+                'message' => 'Erro ao excluir agenda: ' . $e->getMessage()
             ], 500);
         }
     }
