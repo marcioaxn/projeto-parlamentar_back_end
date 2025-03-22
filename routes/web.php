@@ -115,7 +115,7 @@ Route::group(['middleware' => ['auth:sanctum', 'auth', 'check-permissao', 'troca
         Route::get('/listar', [\App\Http\Controllers\Contatos\ContatosController::class, 'listar'])->name('contatos.listar');
         Route::get('/obter', [\App\Http\Controllers\Contatos\ContatosController::class, 'obter'])->name('contatos.obter');
         Route::post('/salvar', [\App\Http\Controllers\Contatos\ContatosController::class, 'salvar'])->name('contatos.salvar');
-        Route::put('/atualizar', [\App\Http\Controllers\Contatos\ContatosController::class, 'atualizar'])->name('contatos.atualizar');
+        Route::put('/atualizar', [\App\Http\Controllers\Contatos\ContatosController::class, 'atualizar'])->name('contatos.atualizar'); // Restaurado para PUT
         Route::delete('/excluir', [\App\Http\Controllers\Contatos\ContatosController::class, 'excluir'])->name('contatos.excluir');
     });
 
