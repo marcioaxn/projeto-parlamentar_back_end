@@ -11,7 +11,7 @@ class Contatos extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'tab_contatos';
+    protected $table = 'tab_contatos'; // Remove o schema
     protected $primaryKey = 'cod_contato';
     public $incrementing = false;
     protected $keyType = 'string';
