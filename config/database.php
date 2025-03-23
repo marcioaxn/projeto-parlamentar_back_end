@@ -74,7 +74,7 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
-            'schema' => ['midr_gestao', 'midr_corporativo', 'midr_organizacao', 'midr_pac', 'midr_snfi'],
+            'schema' => ['parlamentum', 'midr_corporativo', 'midr_organizacao', 'midr_pac', 'midr_snfi'],
             'sslmode' => 'prefer',
         ],
 
