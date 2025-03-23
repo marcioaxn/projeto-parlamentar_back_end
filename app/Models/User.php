@@ -21,7 +21,7 @@ class User extends Authenticatable implements Auditable
     protected $keyType = 'string';
     public $incrementing = false;
 
-    protected $table = 'midr_gestao.users';
+    protected $table = 'users';
 
     protected $primaryKey = 'cod_user';
 

@@ -64,7 +64,7 @@ class TabTseConsolidadaController extends Controller
 
     public function getCodMunicipioPorSglUf($sglUf = null)
     {
-        return DB::selectOne("SELECT cod_municipio FROM midr_gestao.tab_municipio_indicadores WHERE sgl_uf = '" . $sglUf . "';");
+        return DB::selectOne("SELECT cod_municipio FROM tab_municipio_indicadores WHERE sgl_uf = '" . $sglUf . "';");
     }
 
     public function getSenadoresPorEstado($sglUf = null)
@@ -79,8 +79,8 @@ class TabTseConsolidadaController extends Controller
         return DB::select("SELECT
                                 ttca.*, tp.nom_parlamentar_sem_formatacao, tp.cod_parlamentar, tp.dsc_situacao AS dsc_situacao_tp, tp.sgl_partido AS sgl_partido_atual
                             FROM
-                                midr_gestao.tab_tse_consolidada_" . $sglUf . " ttca
-                            LEFT JOIN midr_gestao.tab_parlamentares tp ON ttca.sq_candidato_1::bigint = tp.num_sequencial_candidato AND tp.dsc_situacao = 'Exercício'
+                                tab_tse_consolidada_" . $sglUf . " ttca
+                            LEFT JOIN tab_parlamentares tp ON ttca.sq_candidato_1::bigint = tp.num_sequencial_candidato AND tp.dsc_situacao = 'Exercício'
                             WHERE
                                 ttca.cd_mun = '" . $codMunicipio . "'
                             AND
@@ -107,8 +107,8 @@ class TabTseConsolidadaController extends Controller
         return DB::select("SELECT
                                 ttca.*, tp.nom_parlamentar_sem_formatacao, tp.cod_parlamentar, tp.dsc_situacao AS dsc_situacao_tp, tp.sgl_partido AS sgl_partido_atual
                             FROM
-                                midr_gestao.tab_tse_consolidada_" . $sglUf . " ttca
-                            LEFT JOIN midr_gestao.tab_parlamentares tp ON ttca.sq_candidato_1::bigint = tp.num_sequencial_candidato AND tp.dsc_situacao = 'Exercício'
+                                tab_tse_consolidada_" . $sglUf . " ttca
+                            LEFT JOIN tab_parlamentares tp ON ttca.sq_candidato_1::bigint = tp.num_sequencial_candidato AND tp.dsc_situacao = 'Exercício'
                             WHERE
                                 ttca.cd_mun = '" . $codMunicipio . "'
                             AND
@@ -149,9 +149,9 @@ class TabTseConsolidadaController extends Controller
                                     tp.sgl_partido AS sgl_partido_atual,
                                     tp.cod_parlamentar
                                 FROM
-                                    midr_gestao.tab_tse_consolidada_camara_deputados_" . $sglUf . " ttc
+                                    tab_tse_consolidada_camara_deputados_" . $sglUf . " ttc
                                 LEFT JOIN
-                                    midr_gestao.tab_parlamentares tp ON ttc.sq_candidato_1::TEXT = tp.num_sequencial_candidato::text
+                                    tab_parlamentares tp ON ttc.sq_candidato_1::TEXT = tp.num_sequencial_candidato::text
                                 ORDER BY
                                     ttc.qt_votos_total DESC;");
 
@@ -213,7 +213,7 @@ class TabTseConsolidadaController extends Controller
         return DB::select("SELECT
                                 ttca.*
                             FROM
-                                midr_gestao.tab_tse_consolidada ttca
+                                tab_tse_consolidada ttca
                             WHERE
                                 ttca.sg_uf = '" . $sglUf . "'
                                 " . $condicaoCodMunicipio . "

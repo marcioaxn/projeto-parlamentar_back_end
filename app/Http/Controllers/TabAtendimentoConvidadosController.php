@@ -273,7 +273,7 @@ class TabAtendimentoConvidadosController extends Controller
                                                     <p>
                                                         Deseja realmente excluir este convidado?
                                                     </p>
-midr_gestao.tab_api_camara_deputados_redes_sociais
+tab_api_camara_deputados_redes_sociais
                                                     <p>
                                                         <span class="text-bold">' . $convidado->nom_convidado . '</span> /
                                                         <span

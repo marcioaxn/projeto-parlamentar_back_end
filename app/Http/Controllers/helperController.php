@@ -114,8 +114,8 @@ class helperController extends Controller
             $campos['dsc_tipo_atualizacao'] = 'API Câmara dos Deputados - Legislatura';
             $campos['tms_inicio_procedimento'] = date("Y-m-d H:i:s");
 
-            DB::select("TRUNCATE table midr_gestao.tab_api_camara_lideres;");
-            DB::select("TRUNCATE table midr_gestao.tab_api_camara_orgaos;");
+            DB::select("TRUNCATE table tab_api_camara_lideres;");
+            DB::select("TRUNCATE table tab_api_camara_orgaos;");
 
             $this->atualizarLegislaturaApiCamaraDeputados();
 
@@ -208,11 +208,11 @@ class helperController extends Controller
 
             // Início do procedimento de atualização do campo num_sequencial_candidato da tab_parlamentares quando ele está vazio
             DB::select("UPDATE
-                                midr_gestao.tab_parlamentares
+                                tab_parlamentares
                             SET
                                 num_sequencial_candidato = ttrp.sq_candidato::bigint
                             FROM
-                                midr_gestao.tab_tse_resumo_parlamentares ttrp
+                                tab_tse_resumo_parlamentares ttrp
                             WHERE
                                 mdr_corporativo.fnc_retira_acento(ttrp.nm_candidato) = mdr_corporativo.fnc_retira_acento(tab_parlamentares.nom_parlamentar_completo)
                             AND
@@ -363,7 +363,7 @@ class helperController extends Controller
             $idLegislatura = $getLegislaturaPeloAnoAtual->id;
 
             // Início do procedimento de limpeza dos dados da mesa diretora
-            DB::select("DELETE FROM midr_gestao.tab_camara_mesa;");
+            DB::select("DELETE FROM tab_camara_mesa;");
             // Fim do procedimento de limpeza dos dados da mesa diretora
 
             // Início da atualização dos dados da mesa diretora da Câmara dos Deputados
@@ -902,7 +902,7 @@ class helperController extends Controller
                     if (isset($data) && !is_null($data) && $data != '' && $data !== null) {
 
                         // Início do procedimento de limpeza dos dados de Órgão do parlamentar
-                        DB::select("DELETE FROM midr_gestao.tab_api_camara_orgaos WHERE deputado_id = " . $deputadoId . ";");
+                        DB::select("DELETE FROM tab_api_camara_orgaos WHERE deputado_id = " . $deputadoId . ";");
                         // Fim do procedimento de limpeza dos dados de Órgão do parlamentar
 
                         // Utilize os dados retornados
@@ -993,7 +993,7 @@ class helperController extends Controller
                         if (isset($data) && !is_null($data) && $data != '' && $data !== null) {
 
                             // Início do procedimento de limpeza dos dados de Órgão do parlamentar
-                            DB::select("DELETE FROM midr_gestao.tab_api_camara_lideres;");
+                            DB::select("DELETE FROM tab_api_camara_lideres;");
                             // Fim do procedimento de limpeza dos dados de Órgão do parlamentar
 
                             // Utilize os dados retornados
@@ -1348,8 +1348,8 @@ class helperController extends Controller
 
                 // Início do procedimento de alterar o campo dsc_situacao para 'Fora de exercício'
                 // Essa alteração se faz necessária pois não há um campo lógico na API que diz se está em exercício
-                DB::select("UPDATE midr_gestao.tab_api_senado_lista_atual_senadores SET \"DescricaoSituacao\" = 'Fora de exercício';");
-                DB::select("UPDATE midr_gestao.tab_parlamentares SET dsc_situacao = 'Fora de exercício' WHERE dsc_casa = 'Senado Federal';");
+                DB::select("UPDATE tab_api_senado_lista_atual_senadores SET \"DescricaoSituacao\" = 'Fora de exercício';");
+                DB::select("UPDATE tab_parlamentares SET dsc_situacao = 'Fora de exercício' WHERE dsc_casa = 'Senado Federal';");
                 // Fim do procedimento de alterar o campo dsc_situacao para 'Fora de exercício'
 
                 // Utilize os dados retornados
@@ -1666,7 +1666,7 @@ class helperController extends Controller
         }
 
         // Início do procedimento de limpeza dos dados da mesa diretora do Senado Federal
-        DB::select("DELETE FROM midr_gestao.tab_senado_mesa;");
+        DB::select("DELETE FROM tab_senado_mesa;");
         // Fim do procedimento de limpeza dos dados da mesa diretora do Senado Federal
 
         // Início da atualização dos dados da mesa diretora do Senado Federal
@@ -2015,7 +2015,7 @@ class helperController extends Controller
                 // Verifica se o JSON foi decodificado com sucesso
                 if (isset($data) && !is_null($data) && $data != '' && $data !== null) {
 
-                    DB::select("DELETE FROM midr_gestao.tab_api_senado_lista_colegiados_ativos;");
+                    DB::select("DELETE FROM tab_api_senado_lista_colegiados_ativos;");
 
                     foreach ($data as $keyMembroComissaoParlamentar => $valueMembroComissaoParlamentar) {
 
@@ -2072,7 +2072,7 @@ class helperController extends Controller
     public function comissoesSenadores()
     {
 
-        DB::select("TRUNCATE table midr_gestao.tab_api_senado_comissoes;");
+        DB::select("TRUNCATE table tab_api_senado_comissoes;");
 
         $tabApiSenadoListaAtualSenadores = $this->instanciarTabApiSenadoListaAtualSenadoresController();
 
@@ -2170,7 +2170,7 @@ class helperController extends Controller
     public function liderancasSenadores()
     {
 
-        DB::select("TRUNCATE table midr_gestao.tab_api_senado_liderancas;");
+        DB::select("TRUNCATE table tab_api_senado_liderancas;");
 
         $tabApiSenadoListaAtualSenadores = $this->instanciarTabApiSenadoListaAtualSenadoresController();
 

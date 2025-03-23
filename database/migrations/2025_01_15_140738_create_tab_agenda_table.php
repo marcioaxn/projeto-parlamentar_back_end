@@ -41,6 +41,6 @@ class CreateTabAgendaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('midr_gestao.tab_agenda');
+        Schema::dropIfExists('tab_agenda');
     }
 }

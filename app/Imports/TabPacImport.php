@@ -59,9 +59,9 @@ class TabNovoPacImport implements ToCollection, WithStartRow, WithMultipleSheets
 
         // Início das querys para efetuar backup e em seguida limpar a tabela tab_pac
         $nomeTabelaBackup = 'tab_pab_bkp_' . date('Ymd_His');
-        DB::select("CREATE TABLE midr_gestao." . $nomeTabelaBackup . " AS SELECT * FROM midr_gestao.tab_pac;");
-        DB::select('ALTER TABLE midr_gestao.' . $nomeTabelaBackup . ' OWNER TO "grp.ggis_own";');
-        DB::select("TRUNCATE TABLE midr_gestao.' . $nomeTabelaBackup . ';");
+        DB::select("CREATE TABLE " . $nomeTabelaBackup . " AS SELECT * FROM tab_pac;");
+        DB::select('ALTER TABLE ' . $nomeTabelaBackup . ' OWNER TO "grp.ggis_own";');
+        DB::select("TRUNCATE TABLE ' . $nomeTabelaBackup . ';");
         // Fim das querys para efetuar backup e em seguida limpar a tabela tab_pac
 
     }
