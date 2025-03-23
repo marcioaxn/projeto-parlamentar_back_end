@@ -23,7 +23,7 @@ class TabTseResumoParlamentaresController extends Controller
         return DB::select("SELECT
                                 ttrp.*
                             FROM
-                                midr_gestao.tab_tse_resumo_parlamentares ttrp
+                                tab_tse_resumo_parlamentares ttrp
                             WHERE
                                 ttrp.sg_uf = '" . $sglUf . "'
                             AND

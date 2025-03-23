@@ -25,7 +25,7 @@ class TabRotasController extends Controller
     {
 
         if (isset($codMunicipio) && !is_null($codMunicipio) && $codMunicipio != '') {
-            return DB::select("SELECT tr.nom_rota, COUNT(tr.nom_rota) AS num_quantidade FROM midr_gestao.tab_rota tr WHERE substring(tr.cod_municipio, '[0-9]{2}') = '" . $codMunicipio . "' GROUP BY tr.nom_rota");
+            return DB::select("SELECT tr.nom_rota, COUNT(tr.nom_rota) AS num_quantidade FROM tab_rota tr WHERE substring(tr.cod_municipio, '[0-9]{2}') = '" . $codMunicipio . "' GROUP BY tr.nom_rota");
         } else {
             return [];
         }

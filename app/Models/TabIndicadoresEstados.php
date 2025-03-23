@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\App;
 class TabIndicadoresEstados extends Model
 {
 
-    protected $table = 'midr_gestao.tab_indicadores_estados';
+    protected $table = 'tab_indicadores_estados';
     protected $primaryKey = 'cod_ibge'; // Defina a chave primária explicitamente
     public $incrementing = false; // Especifique que a chave primária não é autoincremental
     protected $keyType = 'int'; // Especifique o tipo se 'cod_ibge' é string

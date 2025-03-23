@@ -87,7 +87,7 @@ class TabParlamentaresController extends Controller
 
     public function getParlamentarPorNomeCompleto($nomParlamentarCompleto = null)
     {
-        return DB::table('midr_gestao.tab_parlamentares')
+        return DB::table('tab_parlamentares')
             ->whereRaw('mdr_corporativo.fnc_retira_acento(nom_parlamentar_completo) = mdr_corporativo.fnc_retira_acento(?)', [$nomParlamentarCompleto])
             ->where('dsc_situacao', 'Exercício')
             ->where('dsc_tratamento', 'Senador')

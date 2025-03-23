@@ -9,7 +9,7 @@ class Audit extends Model
 {
     use HasFactory;
 
-    protected $table = 'midr_gestao.audits';
+    protected $table = 'audits';
 
     public function usuario()
     {

@@ -370,8 +370,8 @@ class MunicipiosController extends Controller
         $uf = '';
 
         // Início para limpar o campo dsc_situacao da tab_tse_consolidade
-        // DB::selectOne("UPDATE midr_gestao.tab_tse_consolidada SET dsc_situacao = null WHERE dsc_situacao IS NOT NULL;");
-        DB::selectOne("UPDATE midr_gestao.tab_tse_consolidada SET dsc_situacao = null WHERE dsc_situacao IS NOT NULL AND sg_uf = '" . $uf . "';");
+        // DB::selectOne("UPDATE tab_tse_consolidada SET dsc_situacao = null WHERE dsc_situacao IS NOT NULL;");
+        DB::selectOne("UPDATE tab_tse_consolidada SET dsc_situacao = null WHERE dsc_situacao IS NOT NULL AND sg_uf = '" . $uf . "';");
         // Fim para limpar o campo dsc_situacao da tab_tse_consolidade
         // ---- x ---- x ---- x ---- x ----
 
@@ -407,7 +407,7 @@ class MunicipiosController extends Controller
                 if ($valueSenadorSuplente->ds_cargo === 'SENADOR') {
 
                     // Gravar o ds_cargo e a dsc_situacao específico do senador
-                    DB::select("UPDATE midr_gestao.tab_tse_consolidada SET ds_cargo_resumo = '" . $valueSenadorSuplente->ds_cargo . "', dsc_situacao = '" . $dscSituacao . "', sq_candidato_titular = '" . $valueSenadorSuplente->sq_candidato . "', dsc_ordem_apresentacao = '1a' WHERE sq_candidato_1 = '" . $valueSenadorSuplente->sq_candidato . "' AND cd_mun = '$valueMunicipio->cod_municipio';");
+                    DB::select("UPDATE tab_tse_consolidada SET ds_cargo_resumo = '" . $valueSenadorSuplente->ds_cargo . "', dsc_situacao = '" . $dscSituacao . "', sq_candidato_titular = '" . $valueSenadorSuplente->sq_candidato . "', dsc_ordem_apresentacao = '1a' WHERE sq_candidato_1 = '" . $valueSenadorSuplente->sq_candidato . "' AND cd_mun = '$valueMunicipio->cod_municipio';");
                 }
                 // Fim para atualizar alguns atributos do senador para o município
                 // ---- x ---- x ---- x ---- x ----
@@ -416,7 +416,7 @@ class MunicipiosController extends Controller
                 if ($valueSenadorSuplente->ds_cargo === '1º SUPLENTE') {
 
                     // Consultar se esse parlamentar já existe na tab_tse_consolidada para esse município
-                    $constarSeExiste = DB::selectOne("SELECT sq_candidato_1 FROM midr_gestao.tab_tse_consolidada WHERE cd_mun = '" . $valueMunicipio->cod_municipio . "' AND sq_candidato_1 = '" . $valueSenadorSuplente->sq_candidato . "' AND ano_eleicao = '" . $valueSenadorSuplente->ano_eleicao . "';");
+                    $constarSeExiste = DB::selectOne("SELECT sq_candidato_1 FROM tab_tse_consolidada WHERE cd_mun = '" . $valueMunicipio->cod_municipio . "' AND sq_candidato_1 = '" . $valueSenadorSuplente->sq_candidato . "' AND ano_eleicao = '" . $valueSenadorSuplente->ano_eleicao . "';");
                     // ---- x ---- x ---- x ---- x ----
 
                     // Consultar o senador titular para que esse suplente herde alguns atributos do titular
@@ -424,12 +424,12 @@ class MunicipiosController extends Controller
                     // ---- x ---- x ---- x ---- x ----
 
                     if (!$constarSeExiste && isset($senadorTitular->qt_votos_nominais) && !is_null($senadorTitular->qt_votos_nominais) && $senadorTitular->qt_votos_nominais != '') {
-                        DB::select("INSERT INTO midr_gestao.tab_tse_consolidada (sg_uf, cd_mun, ds_cargo, nm_candidato, nr_partido, qt_votos_nominais, cd_sit_tot_turno, ds_sit_tot_turno, sq_candidato_1, nr_cpf_candidato, ano_eleicao, qt_votos_total, ds_grau_instrucao, ds_ocupacao, sg_partido, ds_cargo_resumo, dsc_situacao, sq_candidato_titular, dsc_ordem_apresentacao) VALUES ('" . $valueMunicipio->sgl_uf . "', '" . $valueMunicipio->cod_municipio . "', '1º Suplente', '" . $valueSenadorSuplente->nm_candidato . "', '" . $valueSenadorSuplente->nr_partido . "', '" . $senadorTitular->qt_votos_nominais . "', '" . $valueSenadorSuplente->cd_sit_tot_turno . "', '" . $valueSenadorSuplente->ds_sit_tot_turno . "', '" . $valueSenadorSuplente->sq_candidato . "', '" . $valueSenadorSuplente->nr_cpf_candidato . "', '" . $valueSenadorSuplente->ano_eleicao . "', '" . $senadorTitular->qt_votos_total . "', '" . $valueSenadorSuplente->ds_grau_instrucao . "', '" . $valueSenadorSuplente->ds_ocupacao . "', '" . $valueSenadorSuplente->sg_partido . "', '" . $valueSenadorSuplente->ds_cargo . "', '" . $dscSituacao . "', '" . $valueSenadorSuplente->sq_candidato_titular . "', '1b')");
+                        DB::select("INSERT INTO tab_tse_consolidada (sg_uf, cd_mun, ds_cargo, nm_candidato, nr_partido, qt_votos_nominais, cd_sit_tot_turno, ds_sit_tot_turno, sq_candidato_1, nr_cpf_candidato, ano_eleicao, qt_votos_total, ds_grau_instrucao, ds_ocupacao, sg_partido, ds_cargo_resumo, dsc_situacao, sq_candidato_titular, dsc_ordem_apresentacao) VALUES ('" . $valueMunicipio->sgl_uf . "', '" . $valueMunicipio->cod_municipio . "', '1º Suplente', '" . $valueSenadorSuplente->nm_candidato . "', '" . $valueSenadorSuplente->nr_partido . "', '" . $senadorTitular->qt_votos_nominais . "', '" . $valueSenadorSuplente->cd_sit_tot_turno . "', '" . $valueSenadorSuplente->ds_sit_tot_turno . "', '" . $valueSenadorSuplente->sq_candidato . "', '" . $valueSenadorSuplente->nr_cpf_candidato . "', '" . $valueSenadorSuplente->ano_eleicao . "', '" . $senadorTitular->qt_votos_total . "', '" . $valueSenadorSuplente->ds_grau_instrucao . "', '" . $valueSenadorSuplente->ds_ocupacao . "', '" . $valueSenadorSuplente->sg_partido . "', '" . $valueSenadorSuplente->ds_cargo . "', '" . $dscSituacao . "', '" . $valueSenadorSuplente->sq_candidato_titular . "', '1b')");
                     } else {
 
                         if (isset($dscSituacao) && !is_null($dscSituacao) && $dscSituacao != '') {
 
-                            DB::selectOne("UPDATE midr_gestao.tab_tse_consolidada SET dsc_situacao = '" . $dscSituacao . "' WHERE cd_mun = '" . $valueMunicipio->cod_municipio . "' AND sq_candidato_1 = '" . $valueSenadorSuplente->sq_candidato . "';");
+                            DB::selectOne("UPDATE tab_tse_consolidada SET dsc_situacao = '" . $dscSituacao . "' WHERE cd_mun = '" . $valueMunicipio->cod_municipio . "' AND sq_candidato_1 = '" . $valueSenadorSuplente->sq_candidato . "';");
                         }
                     }
                 }
@@ -440,7 +440,7 @@ class MunicipiosController extends Controller
                 if ($valueSenadorSuplente->ds_cargo === '2º SUPLENTE') {
 
                     // Consultar se esse parlamentar já existe na tab_tse_consolidada para esse município
-                    $constarSeExiste = DB::selectOne("SELECT sq_candidato_1 FROM midr_gestao.tab_tse_consolidada WHERE cd_mun = '" . $valueMunicipio->cod_municipio . "' AND sq_candidato_1 = '" . $valueSenadorSuplente->sq_candidato . "' AND ano_eleicao = '" . $valueSenadorSuplente->ano_eleicao . "';");
+                    $constarSeExiste = DB::selectOne("SELECT sq_candidato_1 FROM tab_tse_consolidada WHERE cd_mun = '" . $valueMunicipio->cod_municipio . "' AND sq_candidato_1 = '" . $valueSenadorSuplente->sq_candidato . "' AND ano_eleicao = '" . $valueSenadorSuplente->ano_eleicao . "';");
                     // ---- x ---- x ---- x ---- x ----
 
                     // Consultar o senador titular para que esse suplente herde alguns atributos do titular
@@ -448,12 +448,12 @@ class MunicipiosController extends Controller
                     // ---- x ---- x ---- x ---- x ----
 
                     if (!$constarSeExiste && isset($senadorTitular->qt_votos_nominais) && !is_null($senadorTitular->qt_votos_nominais) && $senadorTitular->qt_votos_nominais != '') {
-                        DB::select("INSERT INTO midr_gestao.tab_tse_consolidada (sg_uf, cd_mun, ds_cargo, nm_candidato, nr_partido, qt_votos_nominais, cd_sit_tot_turno, ds_sit_tot_turno, sq_candidato_1, nr_cpf_candidato, ano_eleicao, qt_votos_total, ds_grau_instrucao, ds_ocupacao, sg_partido, ds_cargo_resumo, dsc_situacao, sq_candidato_titular, dsc_ordem_apresentacao) VALUES ('" . $valueMunicipio->sgl_uf . "', '" . $valueMunicipio->cod_municipio . "', '2º Suplente', '" . $valueSenadorSuplente->nm_candidato . "', '" . $valueSenadorSuplente->nr_partido . "', '" . $senadorTitular->qt_votos_nominais . "', '" . $valueSenadorSuplente->cd_sit_tot_turno . "', '" . $valueSenadorSuplente->ds_sit_tot_turno . "', '" . $valueSenadorSuplente->sq_candidato . "', '" . $valueSenadorSuplente->nr_cpf_candidato . "', '" . $valueSenadorSuplente->ano_eleicao . "', '" . $senadorTitular->qt_votos_total . "', '" . $valueSenadorSuplente->ds_grau_instrucao . "', '" . $valueSenadorSuplente->ds_ocupacao . "', '" . $valueSenadorSuplente->sg_partido . "', '" . $valueSenadorSuplente->ds_cargo . "', '" . $dscSituacao . "', '" . $valueSenadorSuplente->sq_candidato_titular . "', '1c')");
+                        DB::select("INSERT INTO tab_tse_consolidada (sg_uf, cd_mun, ds_cargo, nm_candidato, nr_partido, qt_votos_nominais, cd_sit_tot_turno, ds_sit_tot_turno, sq_candidato_1, nr_cpf_candidato, ano_eleicao, qt_votos_total, ds_grau_instrucao, ds_ocupacao, sg_partido, ds_cargo_resumo, dsc_situacao, sq_candidato_titular, dsc_ordem_apresentacao) VALUES ('" . $valueMunicipio->sgl_uf . "', '" . $valueMunicipio->cod_municipio . "', '2º Suplente', '" . $valueSenadorSuplente->nm_candidato . "', '" . $valueSenadorSuplente->nr_partido . "', '" . $senadorTitular->qt_votos_nominais . "', '" . $valueSenadorSuplente->cd_sit_tot_turno . "', '" . $valueSenadorSuplente->ds_sit_tot_turno . "', '" . $valueSenadorSuplente->sq_candidato . "', '" . $valueSenadorSuplente->nr_cpf_candidato . "', '" . $valueSenadorSuplente->ano_eleicao . "', '" . $senadorTitular->qt_votos_total . "', '" . $valueSenadorSuplente->ds_grau_instrucao . "', '" . $valueSenadorSuplente->ds_ocupacao . "', '" . $valueSenadorSuplente->sg_partido . "', '" . $valueSenadorSuplente->ds_cargo . "', '" . $dscSituacao . "', '" . $valueSenadorSuplente->sq_candidato_titular . "', '1c')");
                     } else {
 
                         if (isset($dscSituacao) && !is_null($dscSituacao) && $dscSituacao != '') {
 
-                            DB::selectOne("UPDATE midr_gestao.tab_tse_consolidada SET dsc_situacao = '" . $dscSituacao . "' WHERE cd_mun = '" . $valueMunicipio->cod_municipio . "' AND sq_candidato_1 = '" . $valueSenadorSuplente->sq_candidato . "';");
+                            DB::selectOne("UPDATE tab_tse_consolidada SET dsc_situacao = '" . $dscSituacao . "' WHERE cd_mun = '" . $valueMunicipio->cod_municipio . "' AND sq_candidato_1 = '" . $valueSenadorSuplente->sq_candidato . "';");
                         }
                     }
                 }
@@ -482,7 +482,7 @@ class MunicipiosController extends Controller
                 // ---- x ---- x ---- x ---- x ----
 
                 if ($dscSituacao != '') {
-                    DB::selectOne("UPDATE midr_gestao.tab_tse_consolidada SET dsc_situacao = '" . $dscSituacao . "', ds_cargo_resumo = '" . $valueDeputadoFederal->ds_sit_tot_turno . "' WHERE cd_mun = '" . $valueMunicipio->cod_municipio . "' AND nr_cpf_candidato = '" . $valueDeputadoFederal->nr_cpf_candidato . "';");
+                    DB::selectOne("UPDATE tab_tse_consolidada SET dsc_situacao = '" . $dscSituacao . "', ds_cargo_resumo = '" . $valueDeputadoFederal->ds_sit_tot_turno . "' WHERE cd_mun = '" . $valueMunicipio->cod_municipio . "' AND nr_cpf_candidato = '" . $valueDeputadoFederal->nr_cpf_candidato . "';");
                 }
 
                 // Fim para atualizar o campo dsc_situacao do deputado federal

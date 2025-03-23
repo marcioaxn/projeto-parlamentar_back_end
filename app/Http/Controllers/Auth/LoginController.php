@@ -109,7 +109,7 @@ class LoginController extends Controller
         foreach ($usuarios as $user) {
             $emailCriptografado = Crypt::encryptString($user->email);
 
-            DB::select("UPDATE midr_gestao.users SET email = '" . $emailCriptografado . "' WHERE email = '" . $user->email . "';");
+            DB::select("UPDATE users SET email = '" . $emailCriptografado . "' WHERE email = '" . $user->email . "';");
         }
 
         return 'Atualização feita.';
