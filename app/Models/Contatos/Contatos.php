@@ -11,7 +11,7 @@ class Contatos extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'tab_contatos'; // Remove o schema
+    protected $table = 'tab_contatos';
     protected $primaryKey = 'cod_contato';
     public $incrementing = false;
     protected $keyType = 'string';
@@ -34,7 +34,7 @@ class Contatos extends Model
         'dsc_identificador_eleitor',
     ];
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['deleted_at', 'created_at', 'updated_at']; // Inclui todos os timestamps
 
     protected static function boot()
     {

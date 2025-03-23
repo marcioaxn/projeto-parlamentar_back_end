@@ -1,5 +1,4 @@
-<!-- Adicionar o CSS do Toastr -->
-
+<!-- Adicionar o CSS do Toastr (assumindo que já está incluído no layout principal) -->
 
 <div class="card">
     <div class="card-body" style="background-color: #FFFFFF !important;">
@@ -81,21 +80,17 @@
                             </div>
                             <div class="tipo-especifico camara_municipal-campo d-none">
                                 <label for="dsc_camara_municipal" class="form-label">Nome da Câmara Municipal *</label>
-                                <input type="text" class="form-control" id="dsc_camara_municipal"
-                                    name="dsc_camara_municipal">
+                                <input type="text" class="form-control" id="dsc_camara_municipal" name="dsc_camara_municipal">
                                 <div class="invalid-feedback">Nome da câmara municipal é obrigatório</div>
                             </div>
                             <div class="tipo-especifico orgao_publico-campo d-none">
                                 <label for="dsc_orgao_publico" class="form-label">Nome do Órgão Público *</label>
-                                <input type="text" class="form-control" id="dsc_orgao_publico"
-                                    name="dsc_orgao_publico">
+                                <input type="text" class="form-control" id="dsc_orgao_publico" name="dsc_orgao_publico">
                                 <div class="invalid-feedback">Nome do órgão público é obrigatório</div>
                             </div>
                             <div class="tipo-especifico eleitor-campo d-none">
-                                <label for="dsc_identificador_eleitor" class="form-label">Identificação do Eleitor
-                                    *</label>
-                                <input type="text" class="form-control" id="dsc_identificador_eleitor"
-                                    name="dsc_identificador_eleitor">
+                                <label for="dsc_identificador_eleitor" class="form-label">Identificação do Eleitor *</label>
+                                <input type="text" class="form-control" id="dsc_identificador_eleitor" name="dsc_identificador_eleitor">
                                 <div class="invalid-feedback">Identificação do eleitor é obrigatória</div>
                             </div>
                         </div>
@@ -109,8 +104,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="num_telefone" class="form-label">Telefone *</label>
-                            <input type="text" class="form-control" id="num_telefone" name="num_telefone"
-                                required>
+                            <input type="text" class="form-control" id="num_telefone" name="num_telefone" required>
                             <div class="invalid-feedback">Telefone é obrigatório</div>
                         </div>
                         <div class="col-md-3">
@@ -128,14 +122,12 @@
                         </div>
                         <div class="col-md-5">
                             <label for="dsc_logradouro" class="form-label">Logradouro *</label>
-                            <input type="text" class="form-control" id="dsc_logradouro" name="dsc_logradouro"
-                                readonly required>
+                            <input type="text" class="form-control" id="dsc_logradouro" name="dsc_logradouro" readonly required>
                             <div class="invalid-feedback">Logradouro é obrigatório</div>
                         </div>
                         <div class="col-md-4">
                             <label for="dsc_bairro" class="form-label">Bairro *</label>
-                            <input type="text" class="form-control" id="dsc_bairro" name="dsc_bairro" readonly
-                                required>
+                            <input type="text" class="form-control" id="dsc_bairro" name="dsc_bairro" readonly required>
                             <div class="invalid-feedback">Bairro é obrigatório</div>
                         </div>
                     </div>
@@ -143,14 +135,12 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label for="dsc_cidade" class="form-label">Cidade *</label>
-                            <input type="text" class="form-control" id="dsc_cidade" name="dsc_cidade" readonly
-                                required>
+                            <input type="text" class="form-control" id="dsc_cidade" name="dsc_cidade" readonly required>
                             <div class="invalid-feedback">Cidade é obrigatória</div>
                         </div>
                         <div class="col-md-6">
                             <label for="dsc_estado" class="form-label">Estado *</label>
-                            <input type="text" class="form-control" id="dsc_estado" name="dsc_estado" readonly
-                                required>
+                            <input type="text" class="form-control" id="dsc_estado" name="dsc_estado" readonly required>
                             <div class="invalid-feedback">Estado é obrigatório</div>
                         </div>
                     </div>
