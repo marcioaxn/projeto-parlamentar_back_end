@@ -13,8 +13,8 @@ Route::get('/', function () {
     return view('app');
 })->name('landingpage');
 
-Route::group(['middleware' => ['auth:sanctum', 'auth', 'check-permissao', 'trocarSenha', 'usuarioInativo']], function () {
-
+// Rotas gerais (sem check-permissao para evitar loop)
+Route::group(['middleware' => ['auth:sanctum', 'auth', 'trocarSenha', 'usuarioInativo']], function () {
     Route::get('app', [App\Http\Controllers\TabModulosController::class, 'index'])->name('principal');
 
     Route::match(['get', 'post'], 'gabinete', [App\Http\Controllers\ParlamentarController::class, 'index'])->name('parlamentar');
@@ -163,8 +163,9 @@ Route::group(['middleware' => ['auth:sanctum', 'auth', 'check-permissao', 'troca
 
 });
 
-// Rotas protegidas pelo middleware habituais e o CheckUserProfile
-Route::middleware(['auth:sanctum', 'auth', 'trocarSenha', 'usuarioInativo', 'check.profile'])->group(function () {
+// Rotas do dashboard (apenas check-permissao)
+Route::middleware(['auth', 'check-permissao'])->prefix('dashboard')->group(function () {
+    Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard.index');
 
     // Início das rotas de gerenciamento dos Planos
     Route::resource('planos', TabPlanosController::class)->parameters([
@@ -180,12 +181,23 @@ Route::middleware(['auth:sanctum', 'auth', 'trocarSenha', 'usuarioInativo', 'che
 
     // Início das rotas de gerenciamento dos Contratos
     Route::resource('contratos', ContratoController::class)->parameters([
-        'contratos' => 'cod_contrato', // Usando cod_contrato como parâmetro
+        'contratos' => 'cod_contrato',
     ]);
     Route::get('/contratos/plano-valor/{cod_plano}', [ContratoController::class, 'getPlanoValor'])->name('contratos.plano-valor');
     // Fim das rotas de gerenciamento dos Contratos
 
-    Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    // Início das rotas de gerenciamento de Usuários
+    Route::get('/users', [\App\Http\Controllers\User\UsersController::class, 'index'])->name('users.index');
+
+    Route::group(['prefix' => 'users', 'as' => 'users.'], function () {
+        Route::post('/list', [\App\Http\Controllers\User\UsersController::class, 'list'])->name('list'); // Listagem de usuários com filtros
+        Route::post('/store', [\App\Http\Controllers\User\UsersController::class, 'store'])->name('store'); // Criar usuário
+        Route::post('/update/{cod_user}', [\App\Http\Controllers\User\UsersController::class, 'update'])->name('update'); // Editar usuário
+        Route::post('/delete/{cod_user}', [\App\Http\Controllers\User\UsersController::class, 'destroy'])->name('delete'); // Excluir usuário
+        Route::get('/edit/{cod_user}', [\App\Http\Controllers\User\UsersController::class, 'edit'])->name('edit'); // Carregar dados para edição
+    });
+    // Fim das rotas de gerenciamento de Usuários
+
 });
 
 Route::get('sem-permissao', function () {

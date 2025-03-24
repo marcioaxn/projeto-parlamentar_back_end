@@ -32,8 +32,8 @@ class TabModulosController extends Controller
             $this->getCodParlamentar($gabinetesAtivos->first()->cod_parlamentar);
         }
 
-        \Session::put('bln_administrar_usuarios', $user->perfil->bln_administrar_usuarios);
-        \Session::put('bln_acesso_inrestrito', $user->perfil->bln_acesso_inrestrito);
+        \Session::put('bln_administrar_usuarios', $user->bln_admin);
+        \Session::put('bln_acesso_inrestrito', $user->bln_admin);
 
         $codParlamentar = Session::get('cod_parlamentar');
 

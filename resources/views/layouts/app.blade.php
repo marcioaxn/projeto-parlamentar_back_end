@@ -29,6 +29,7 @@
 
     @yield('scriptscss')
 
+    <!-- Toastr CSS -->
     <link href="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.css" rel="stylesheet">
 </head>
 
@@ -138,6 +139,19 @@
     <script src="{{ asset('js/core-init.js') }}" defer></script>
     <script src="https://unpkg.com/imask"></script>
 
+    <!-- Toastr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/toastr@2.1.4/build/toastr.min.js"></script>
+
+    <!-- Configuração Global do Toastr -->
+    <script>
+        toastr.options = {
+            closeButton: true,
+            progressBar: true,
+            positionClass: "toast-top-right",
+            timeOut: 3000
+        };
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Tooltip initialization
@@ -222,6 +236,8 @@
             });
         });
     </script>
+
+    @yield('footer-scripts')
 
 </body>
 
