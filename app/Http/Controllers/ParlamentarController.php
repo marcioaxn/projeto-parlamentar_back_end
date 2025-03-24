@@ -130,7 +130,7 @@ class ParlamentarController extends Controller
         // dd("Aqui 8", Crypt::encryptString(Auth::user()->email));
 
         $this->perfil = $user->perfil;
-        $this->bln_acesso_inrestrito = $this->perfil->bln_acesso_inrestrito;
+        $this->bln_acesso_inrestrito = $user->bln_admin;
         // Fim da parte de consulta ao perfil de acesso do cliente
 
         $input = $request->all();

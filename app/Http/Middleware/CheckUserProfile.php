@@ -12,11 +12,8 @@ class CheckUserProfile
     {
         $user = Auth::user();
 
-        if (!$user || $user->cod_perfil !== '9249b1c3-bdb5-28d3-a701-12fa7f16d325') {
-            // Redireciona ou retorna erro 403
-            return redirect()->route('acesso-negado');
-        }
-
+        // Não redireciona mais automaticamente aqui.
+        // Apenas verifica se o perfil permite acesso, mas deixa o LoginController gerenciar o redirecionamento inicial.
         return $next($request);
     }
 }

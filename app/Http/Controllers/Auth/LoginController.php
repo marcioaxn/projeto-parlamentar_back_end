@@ -21,11 +21,22 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    protected $redirectTo = '/app';
+    protected $redirectTo = '/';
 
-    protected function redirectTo()
+    // Sobrescrever o caminho de redirecionamento
+    public function redirectTo()
     {
-        return $this->redirectTo;
+        $user = Auth::user();
+        return $user->bln_admin ? route('dashboard.index') : route('principal');
+    }
+
+    // Método alternativo, caso redirectTo não funcione
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->bln_admin) {
+            return redirect()->route('dashboard.index');
+        }
+        return redirect()->route('principal');
     }
 
     public function __construct()
