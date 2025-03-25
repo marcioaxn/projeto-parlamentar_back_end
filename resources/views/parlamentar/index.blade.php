@@ -22,14 +22,7 @@
             <div class="card bg-white shadow-sm mb-3">
                 <div class="row">
 
-                    <div
-                        class="col-12 col-sm-4 col-md-4 col-lg-2 col-xl-2 p-1 d-flex align-items-center justify-content-center">
-
-                        <img src="<?php $getParlamentar->dsc_casa == 'Câmara dos Deputados' ? print asset('storage/fotos/deputados/' . $cod_parlamentar . '.jpg') : print asset('storage/fotos/senadores/' . $cod_parlamentar . '.jpg'); ?>" class="rounded"
-                            style="min-width: 225px !Important; width: 245px !Important; max-width: 245px !Important; min-height: 314px !Important; height: 314px !Important; max-height: 314px !Important;">
-
-                    </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-10 col-xl-2 p-1 pl-2 text-justify">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 p-1 pl-1 text-justify">
 
                         @php
                             $getParlamentar->dsc_sexo === 'Masculino'
@@ -37,41 +30,42 @@
                                 : ($contracaoPrepositiva = 'da');
                         @endphp
 
-                        <div class="card-title border-bottom fs-4 text-white bg-senado-titulo-modal rounded mt-1 mb-3 pt-1 pb-1 pl-2">
+                        <div
+                            class="card-title border-bottom fs-4 text-white bg-senado-titulo-modal rounded mb-0 p-1 pl-2 pr-2">
                             Gabinete {{ $contracaoPrepositiva }}
                             {{ $getParlamentar->dsc_tratamento }} - <span class="fw-bold">
                                 {{ $getParlamentar->nom_parlamentar }} </span> -
                             {{ $getParlamentar->sgl_partido . '/' . $getParlamentar->sgl_uf_representante }}
                         </div>
 
-                        <div class="row pl-2">
+                        <div class="row g-0 m-0">
 
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-7 col-xl-7 p-1">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-2 p-1">
 
-                                <p><strong>Agenda do dia {{ date('d/m/Y') }}</strong></p>
+                                <p class="mb-1 pb-0"><strong>Agenda do dia {{ date('d/m/Y') }}</strong></p>
 
                                 @if ($agendas->isNotEmpty() && $agendas->count() > 0)
                                     @foreach ($agendas as $agenda)
-                                        <p class="text-info text-justify font-numero">
+                                        <p class="text-info text-justify font-numero pl-1">
                                             {{ \Carbon\Carbon::parse($agenda->dat_inicio)->format('H:i') . ' às ' . \Carbon\Carbon::parse($agenda->dat_fim)->format('H:i') . ' - ' . $agenda->dsc_titulo }}
                                         </p>
                                     @endforeach
                                 @else
-                                    <div class="alert alert-warning">Nenhuma agenda cadastrada para este dia.</div>
+                                    <div class="text-muted">Nenhuma agenda cadastrada para este dia.</div>
                                 @endif
 
                             </div>
 
-                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 col-xl-5 p-1">
+                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 pt-2 p-1">
 
-                                <div class="row g-0 m-0 pr-2">
+                                <div class="row g-0 m-0">
 
-                                    <p><strong>Lideranças, Cargos e comissões</strong></p>
+                                    <p class="mb-1 pb-0"><strong>Lideranças, cargos e comissões</strong></p>
 
                                     @if ($getParlamentar->dsc_casa === 'Câmara dos Deputados')
 
                                         @if ($getParlamentar->cargosMesaDiretora)
-                                            <p class="textoCargosEComissoes pt-2 pl-0">
+                                            <p class="textoCargosEComissoes pt-0 pl-0">
                                                 @php
                                                     $getParlamentar->cargosMesaDiretora->titulo === 'Presidente'
                                                         ? ($getParlamentar->cargosMesaDiretora->titulo =

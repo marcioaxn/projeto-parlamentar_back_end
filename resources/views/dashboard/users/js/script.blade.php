@@ -33,7 +33,7 @@
                         if (attempts >= maxAttempts) {
                             this.logError(
                                 'Toastr não está disponível após várias tentativas. Certifique-se de que o script do Toastr foi carregado.'
-                                );
+                            );
                             console.log(
                             `[Toastr Fallback] ${callback.message}`); // Fallback para o console
                             return;
@@ -83,12 +83,9 @@
                     order: [
                         [0, 'asc']
                     ],
-                    columns: [{
-                            data: 'name'
-                        },
-                        {
-                            data: 'email'
-                        },
+                    columns: [
+                        { data: 'name' },
+                        { data: 'email' },
                         {
                             data: 'ativo',
                             render: function(data) {
@@ -105,8 +102,8 @@
                             data: null,
                             orderable: false,
                             render: (data, type, row) =>
-                                `<button class="btn btn-sm btn-warning btn-editar" data-id="${row.id}"><i class="fas fa-edit"></i> Editar</button>
-                                 <button class="btn btn-sm btn-danger btn-excluir" data-id="${row.id}"><i class="fas fa-trash"></i> Excluir</button>`
+                                `<button class="btn btn-sm btn-warning btn-editar" data-id="${row.cod_user}"><i class="fas fa-edit"></i> Editar</button>
+                                 <button class="btn btn-sm btn-danger btn-excluir" data-id="${row.cod_user}"><i class="fas fa-trash"></i> Excluir</button>`
                         }
                     ]
                 });
@@ -268,8 +265,7 @@
                         if (response.status === 422) {
                             const errorData = await response.json();
                             const errorMessage = errorData.message || 'Erro de validação no servidor.';
-                            const errorDetails = errorData.errors ? Object.values(errorData.errors)[0][0] :
-                                null;
+                            const errorDetails = errorData.errors ? Object.values(errorData.errors)[0][0] : null;
                             this.logError('Erro 422 ao obter usuário:', errorData);
                             throw new Error(errorDetails || errorMessage);
                         }
@@ -283,11 +279,13 @@
                         const usuario = data.data;
                         this.logInfo('Preenchendo formulário com dados do usuário:', usuario);
 
-                        document.getElementById('cod_usuario').value = usuario.id;
+                        document.getElementById('cod_usuario').value = usuario.cod_user;
                         document.getElementById('name').value = usuario.name;
                         document.getElementById('email').value = usuario.email;
-                        document.getElementById('ativo').value = usuario.ativo;
-                        document.getElementById('bln_admin').value = usuario.bln_admin;
+                        // Converter ativo para string "1" ou "0"
+                        document.getElementById('ativo').value = usuario.ativo ? "1" : "0";
+                        // Converter bln_admin para string "1" ou "0"
+                        document.getElementById('bln_admin').value = usuario.bln_admin ? "1" : "0";
 
                         this.userModal.show();
                     } else {
@@ -314,7 +312,7 @@
 
                 const id = document.getElementById('cod_usuario').value;
                 const isEdicao = id !== '';
-                const method = isEdicao ? 'PUT' : 'POST';
+                const method = 'POST'; // Sempre usar POST, pois as rotas store e update esperam POST
                 const url = isEdicao ? `${this.routes.atualizar}/${id}` : this.routes.salvar;
 
                 const formData = {
@@ -334,13 +332,11 @@
                     contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
                     success: (response) => {
                         if (response.success) {
-                            this.showToast('success', response.message ||
-                                'Usuário salvo com sucesso');
+                            this.showToast('success', response.message || 'Usuário salvo com sucesso');
                             this.userModal.hide();
                             this.tabelaUsuarios.ajax.reload();
                         } else {
-                            this.showToast('error', response.message ||
-                                'Erro ao salvar o usuário');
+                            this.showToast('error', response.message || 'Erro ao salvar o usuário');
                         }
                     },
                     error: (xhr) => {
@@ -351,8 +347,7 @@
                                 this.showToast('error', `${field}: ${errors[field][0]}`);
                             }
                         } else {
-                            this.showToast('error', 'Erro ao processar a requisição: ' + xhr
-                                .statusText);
+                            this.showToast('error', 'Erro ao processar a requisição: ' + xhr.statusText);
                         }
                     },
                     complete: () => {
