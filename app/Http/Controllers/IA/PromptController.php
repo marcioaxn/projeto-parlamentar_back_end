@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\IA;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use OpenAI\Laravel\Facades\OpenAI;
 
@@ -15,53 +14,98 @@ class PromptController extends Controller
 
             $cacheKey = "resumo_executivo_{$cargoParlamentar}_{$nomeParlamentar}_{$sglUfRepresentacao}";
 
-            // Cache::forget($cacheKey);
+            Cache::forget($cacheKey);
 
             return Cache::remember($cacheKey, now()->addHours(2), function () use ($nomeParlamentar, $cargoParlamentar, $sglPartido, $sglUfRepresentacao) {
                 $response = OpenAI::chat()->create([
                     'model' => 'gpt-4-turbo',
                     'messages' => [
-                        ['role' => 'system', 'content' => 'Você é um analista político especializado em fornecer **resumos executivos estratégicos** para parlamentares.  
-
-                        🔹 Cada informação deve conter **dados concretos, impacto real e direcionamento prático** para o senador.  
-                        🔹 **Evite estruturas engessadas e repetitivas**. O conteúdo deve ser variado e relevante ao contexto.  
-                        🔹 **Inclua percentuais, valores em reais e possíveis ações** que o parlamentar pode tomar.  
-                        🔹 O resumo deve ser atualizado e específico para o estado do parlamentar.'],
+                        ['role' => 'system', 'content' => 'Você é um analista político especializado em fornecer resumos estratégicos dinâmicos para parlamentares. Cada tema deve trazer novas abordagens diariamente para evitar repetições. Os dados devem ser precisos, com fontes oficiais e impacto direto para o parlamentar.'],
 
                         [
                             'role' => 'user',
-                            'content' =>
-                            "📌 **Resumo Executivo para {$cargoParlamentar} {$nomeParlamentar} ({$sglPartido}-{$sglUfRepresentacao})**  
-
-1️⃣ **Economia & Empregos**  
-- A taxa de desemprego no {$sglUfRepresentacao} subiu **{X%}** no último trimestre, superando a média nacional de **{Y%}**. O setor **{setor afetado}** foi o mais impactado, registrando queda de **{Z%}** na geração de empregos.  
-🔹 **Oportunidade**: O governo federal lançou o programa **{nome do programa}**, que prevê investimentos de **R$ {valor}** para incentivar a contratação de trabalhadores no setor.  
-🎯 **Ação Sugerida**: Cobrar do Ministério da Fazenda a inclusão do {$sglUfRepresentacao} na primeira fase de implementação do programa.  
-
-2️⃣ **Infraestrutura & Obras**  
-- As obras da rodovia **{nome da rodovia}**, que liga **{cidade}** a **{cidade}**, estão **paralisadas há {X meses}** devido à falta de repasses federais. Isso impacta diretamente o transporte de **{produto/setor afetado}**, que já acumula perdas de **R$ {valor}**.  
-🔹 **Movimentação**: O DNIT solicitou um novo aporte de **R$ {valor}**, mas aguarda liberação da **{instituição responsável}**.  
-🎯 **Ação Sugerida**: Mobilizar a bancada do estado para acelerar a liberação dos recursos junto ao Ministério da Infraestrutura.  
-
-3️⃣ **Educação & Saúde**  
-- O novo modelo de distribuição do Fundeb pode reduzir em **R$ {valor}** os repasses para escolas públicas no {$sglUfRepresentacao}. Municípios menores serão os mais prejudicados, com cortes médios de **{X%}** no orçamento escolar.  
-🔹 **Reação do Congresso**: A Comissão de Educação do Senado propôs um ajuste no cálculo do fundo para minimizar perdas nos estados do Norte.  
-🎯 **Ação Sugerida**: Articular com a Comissão de Educação para garantir que o {$sglUfRepresentacao} tenha compensação financeira no novo modelo.  
-
-4️⃣ **Segurança Pública**  
-- O índice de violência no {$sglUfRepresentacao} aumentou **{X%}** nos últimos seis meses, com crescimento expressivo em **{tipo de crime}**. A cidade de **{cidade mais afetada}** registrou **{X homicídios/furtos/roubos}** em {período}, o maior índice desde {ano}.  
-🔹 **Medidas do Governo**: O Ministério da Justiça anunciou um pacote de segurança de **R$ {valor}**, mas apenas **{X%}** será destinado ao {$sglUfRepresentacao}.  
-🎯 **Ação Sugerida**: Reivindicar maior participação do estado no programa e pressionar pela inclusão de municípios estratégicos.  
-
-📌 **Resumo atualizado e com foco em ações concretas para o parlamentar.**"
+                            'content' => "\ud83d\udccc **Resumo Executivo elaborado em " . date('d/m/Y') . " às " . date('H:i') . "**  \n\n"
+                                . $this->gerarResumoDinamico($sglUfRepresentacao)
                         ]
                     ],
                 ]);
 
-                return $response->choices[0]->message->content ?? 'No response from OpenAI';
+                return $response->choices[0]->message->content ?? 'Sem resposta da openAI, favor aguardar um novo processamento que ocorre às 07:00 e às 13:00 diariamente.';
             });
         }
 
         return 'Informações insuficientes para gerar o resumo.';
+    }
+
+    private function gerarResumoDinamico($uf)
+    {
+        $temas = [
+            'Economia & Empregos' => [
+                'Crescimento do setor industrial',
+                'Desafios do agronegócio',
+                'Impacto do turismo na geração de empregos'
+            ],
+            'Infraestrutura & Obras' => [
+                'Expansão de rodovias e ferrovias',
+                'Situação de aeroportos e portos',
+                'Projetos de saneamento e abastecimento',
+                'Mobilidade urbana e transporte público',
+                'Habitação e regularização fundiária',
+                'Energia renovável e matriz energética',
+                'Infraestrutura digital e conectividade',
+                'Gestão de resíduos sólidos',
+                'Prevenção de desastres naturais',
+                'Revitalização de áreas urbanas degradadas'
+            ],
+            'Educação & Saúde' => [
+                'Financiamento do ensino superior',
+                'Déficit de médicos no interior',
+                'Expansão da rede de escolas técnicas',
+                'Qualidade do ensino básico',
+                'Infraestrutura hospitalar e equipamentos',
+                'Programas de prevenção e promoção da saúde',
+                'Saúde mental e bem-estar social',
+                'Combate às epidemias e vigilância sanitária',
+                'Inclusão escolar e acessibilidade educacional'
+            ],
+            'Segurança Pública' => [
+                'Combate ao tráfico de drogas',
+                'Violência contra mulheres',
+                'Condições do sistema prisional',
+                'Modernização das forças policiais',
+                'Segurança nas fronteiras',
+                'Prevenção à violência juvenil',
+                'Tecnologia aplicada à segurança pública',
+                'Políticas de desarmamento',
+                'Policiamento comunitário e preventivo',
+                'Cooperação interestadual em segurança'
+            ],
+            'Desenvolvimento Social' => [
+                'Combate à pobreza e desigualdade',
+                'Programas de transferência de renda',
+                'Segurança alimentar e nutricional',
+                'Políticas para juventude',
+                'Acessibilidade e inclusão de pessoas com deficiência',
+                'Proteção à criança e ao adolescente',
+                'Políticas para idosos e envelhecimento ativo',
+                'Igualdade racial e combate à discriminação',
+                'Direitos dos povos tradicionais e indígenas',
+                'Economia solidária e cooperativismo'
+            ]
+        ];
+
+        $resumo = "";
+        $contador = 1;
+        foreach ($temas as $tema => $subtemas) {
+            $subtema = $subtemas[array_rand($subtemas)];
+            $resumo .= "{$contador}\uFE0F\u20E3 **{$tema}**  \n\n
+- {$subtema} no estado do {$uf}. [Dados detalhados e fontes oficiais aqui].  \n\n
+🔹 **Oportunidade**: [Informação específica].  \n
+🎯 **Ação Sugerida**: [Medida concreta].  \n\n
+            ";
+            $contador++;
+        }
+
+        return $resumo;
     }
 }
