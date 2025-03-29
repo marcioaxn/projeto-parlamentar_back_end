@@ -4279,3 +4279,10 @@ function iconeServicosGabiente($temaServico = null)
 
     return $icon;
 }
+
+if (!function_exists('markdownToHtml')) {
+    function markdownToHtml($text)
+    {
+        return (new \Parsedown())->text($text);
+    }
+}

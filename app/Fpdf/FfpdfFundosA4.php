@@ -9,7 +9,7 @@ use Auth;
 use DB;
 use Codedge\Fpdf\Fpdf\Fpdf;
 
-class FfpdfFundos extends Fpdf
+class FfpdfFundosA4 extends Fpdf
 {
 
     function Header()

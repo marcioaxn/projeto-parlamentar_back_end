@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Imports\HeadingRowFormatter;
 
 HeadingRowFormatter::default('none');
 
-class TabNovoPacImport implements ToCollection, WithStartRow, WithMultipleSheets, SkipsOnFailure
+class TabPacImport implements ToCollection, WithStartRow, WithMultipleSheets, SkipsOnFailure
 {
     public function sheets(): array
     {
