@@ -22,7 +22,7 @@ ini_set('memory_limit', '2096M');
 ini_set('max_execution_time', 5500);
 set_time_limit(900000000);
 
-class MunicipiosController extends Controller
+class EstadosController extends Controller
 {
 
     protected $perfil = null;

@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use RRule\RRule;
 use Session;
 
-class AgendaController extends Controller
+class AgendaAntigoController extends Controller
 {
     public function listar()
     {

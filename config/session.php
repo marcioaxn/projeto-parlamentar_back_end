@@ -29,7 +29,8 @@ return [
 
     'path' => '/',
 
-    'domain' => '45.55.78.159',
+    // 'domain' => '45.55.78.159',
+    'domain' => env('SESSION_DOMAIN', null),
 
     'secure' => env('SESSION_SECURE_COOKIE'),
 
