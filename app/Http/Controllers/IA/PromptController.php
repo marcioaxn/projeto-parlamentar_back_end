@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers\IA;
 
@@ -13,45 +13,48 @@ class PromptController extends Controller
     {
         if (!empty($nomeParlamentar) && !empty($cargoParlamentar) && !empty($sglPartido) && !empty($sglUfRepresentacao)) {
 
-            // Criando uma chave única para o cache, garantindo que ela se renove a cada 2 horas
             $cacheKey = "resumo_executivo_{$cargoParlamentar}_{$nomeParlamentar}_{$sglUfRepresentacao}";
 
             // Cache::forget($cacheKey);
 
             return Cache::remember($cacheKey, now()->addHours(2), function () use ($nomeParlamentar, $cargoParlamentar, $sglPartido, $sglUfRepresentacao) {
-                // Chamando a OpenAI com o mesmo prompt original
                 $response = OpenAI::chat()->create([
-                    'model' => 'gpt-3.5-turbo',
+                    'model' => 'gpt-4-turbo',
                     'messages' => [
-                        ['role' => 'system', 'content' => 'Você é um assistente político altamente especializado. Seu papel é fornecer um resumo executivo diário para um parlamentar, destacando as principais pautas políticas em discussão no Congresso Nacional e como elas impactam diretamente seu estado de representação. A resposta deve ser clara, concisa e informativa, destacando oportunidades e desafios políticos.'],
-                        ['role' => 'user', 'content' => "Sou o(a) " . $cargoParlamentar . " " . $nomeParlamentar . ", do partido " . $sglPartido . ", representando o estado do " . $sglUfRepresentacao . ". Preciso de um resumo executivo das pautas políticas mais relevantes hoje, dia " . date('d/m/Y') . ", no Congresso Nacional e no cenário estadual e como elas impactam diretamente o estado do " . $sglUfRepresentacao . ". Estruture a resposta nos seguintes temas:
+                        ['role' => 'system', 'content' => 'Você é um analista político especializado em fornecer **resumos executivos estratégicos** para parlamentares.  
 
-1️⃣ **Emprego e Economia**  
-- Há alguma pauta em discussão no Congresso que impacta o desenvolvimento econômico do estado de AP?  
-- Como está o cenário de emprego e geração de renda no Brasil e no Amapá?  
-- Há indicadores econômicos relevantes divulgados recentemente?  
+                        🔹 Cada informação deve conter **dados concretos, impacto real e direcionamento prático** para o senador.  
+                        🔹 **Evite estruturas engessadas e repetitivas**. O conteúdo deve ser variado e relevante ao contexto.  
+                        🔹 **Inclua percentuais, valores em reais e possíveis ações** que o parlamentar pode tomar.  
+                        🔹 O resumo deve ser atualizado e específico para o estado do parlamentar.'],
 
-2️⃣ **Energia e Infraestrutura**  
-- Alguma proposta no Congresso trata de investimentos ou mudanças em energia e infraestrutura que afetam AP?  
-- Como está a evolução de obras e projetos de infraestrutura relevantes para o estado?  
+                        [
+                            'role' => 'user',
+                            'content' =>
+                            "📌 **Resumo Executivo para {$cargoParlamentar} {$nomeParlamentar} ({$sglPartido}-{$sglUfRepresentacao})**  
 
-3️⃣ **Educação e Saúde**  
-- Alguma medida em tramitação no Congresso impacta a educação básica, superior ou a saúde pública no estado?  
-- Como estão os indicadores de educação e saúde do Amapá comparados ao cenário nacional?  
+1️⃣ **Economia & Empregos**  
+- A taxa de desemprego no {$sglUfRepresentacao} subiu **{X%}** no último trimestre, superando a média nacional de **{Y%}**. O setor **{setor afetado}** foi o mais impactado, registrando queda de **{Z%}** na geração de empregos.  
+🔹 **Oportunidade**: O governo federal lançou o programa **{nome do programa}**, que prevê investimentos de **R$ {valor}** para incentivar a contratação de trabalhadores no setor.  
+🎯 **Ação Sugerida**: Cobrar do Ministério da Fazenda a inclusão do {$sglUfRepresentacao} na primeira fase de implementação do programa.  
 
-4️⃣ **Moradia e Terras**  
-- Existem discussões no Congresso sobre políticas habitacionais, reforma agrária ou regularização fundiária que impactam AP?  
-- Há movimentações políticas relacionadas a povos indígenas, quilombolas ou assentamentos rurais na região?  
+2️⃣ **Infraestrutura & Obras**  
+- As obras da rodovia **{nome da rodovia}**, que liga **{cidade}** a **{cidade}**, estão **paralisadas há {X meses}** devido à falta de repasses federais. Isso impacta diretamente o transporte de **{produto/setor afetado}**, que já acumula perdas de **R$ {valor}**.  
+🔹 **Movimentação**: O DNIT solicitou um novo aporte de **R$ {valor}**, mas aguarda liberação da **{instituição responsável}**.  
+🎯 **Ação Sugerida**: Mobilizar a bancada do estado para acelerar a liberação dos recursos junto ao Ministério da Infraestrutura.  
 
-5️⃣ **Desigualdade e Inclusão**  
-- Há propostas legislativas que afetam políticas sociais, combate à desigualdade e inclusão no estado?  
-- O Congresso está debatendo alguma medida que impacta diretamente grupos vulneráveis no Amapá?  
+3️⃣ **Educação & Saúde**  
+- O novo modelo de distribuição do Fundeb pode reduzir em **R$ {valor}** os repasses para escolas públicas no {$sglUfRepresentacao}. Municípios menores serão os mais prejudicados, com cortes médios de **{X%}** no orçamento escolar.  
+🔹 **Reação do Congresso**: A Comissão de Educação do Senado propôs um ajuste no cálculo do fundo para minimizar perdas nos estados do Norte.  
+🎯 **Ação Sugerida**: Articular com a Comissão de Educação para garantir que o {$sglUfRepresentacao} tenha compensação financeira no novo modelo.  
 
-⚡ **IMPORTANTE**:  
-✅ Seja breve e objetivo – preciso de um resumo executivo, não um relatório extenso.  
-✅ Priorize informações novas – evite repetir temas de dias anteriores, a menos que haja novidades relevantes.  
+4️⃣ **Segurança Pública**  
+- O índice de violência no {$sglUfRepresentacao} aumentou **{X%}** nos últimos seis meses, com crescimento expressivo em **{tipo de crime}**. A cidade de **{cidade mais afetada}** registrou **{X homicídios/furtos/roubos}** em {período}, o maior índice desde {ano}.  
+🔹 **Medidas do Governo**: O Ministério da Justiça anunciou um pacote de segurança de **R$ {valor}**, mas apenas **{X%}** será destinado ao {$sglUfRepresentacao}.  
+🎯 **Ação Sugerida**: Reivindicar maior participação do estado no programa e pressionar pela inclusão de municípios estratégicos.  
 
-Agora, gere um resumo executivo das informações políticas mais relevantes do dia para o senador Randolfe Rodrigues."]
+📌 **Resumo atualizado e com foco em ações concretas para o parlamentar.**"
+                        ]
                     ],
                 ]);
 
