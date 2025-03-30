@@ -43,74 +43,70 @@ class PromptController extends Controller
 
     private function gerarResumoDinamico($uf)
     {
-
-        $anoAtual = date('Y');
-        $anoAnterior = date('Y') - 1;
+        $anoAtual = date('Y'); // 2025
+        $anoAnterior = date('Y') - 1; // 2024
 
         $temas = [
             'Economia & Empregos' => [
-                'Crescimento do setor industrial' => "Fonte: IBGE - Relatório de Produção Industrial {$anoAtual}",
-                'Desafios do agronegócio' => "Fonte: MAPA - Ministério da Agricultura {$anoAtual}",
-                'Impacto do turismo na geração de empregos' => "Fonte: MTur - Boletim Econômico do Turismo {$anoAtual}",
+                'Crescimento do setor industrial' => "Fonte: IBGE - Pesquisa Industrial Mensal (PIM-PF) {$anoAtual}",
+                'Desafios do agronegócio' => "Fonte: MAPA - Balanço Anual da Agropecuária {$anoAtual}",
+                'Impacto do turismo na geração de empregos' => "Fonte: MTur - Anuário Estatístico do Turismo {$anoAtual}",
                 'Comércio exterior e exportações' => "Fonte: MDIC - Balança Comercial Brasileira {$anoAtual}",
-                'Mercado de trabalho e desemprego' => "Fonte: IBGE - Pesquisa Nacional por Amostra de Domicílios Contínua {$anoAtual}",
-                'Inflação e poder de compra' => "Fonte: BCB - Relatório de Inflação {$anoAtual}",
-                'Desenvolvimento da economia criativa' => "Fonte: MinC - Mapeamento da Indústria Criativa {$anoAtual}",
+                'Mercado de trabalho e desemprego' => "Fonte: IBGE - PNAD Contínua {$anoAtual}",
+                'Inflação e poder de compra' => "Fonte: IBGE - Índice Nacional de Preços ao Consumidor (IPCA) {$anoAtual}",
+                'Desenvolvimento da economia criativa' => "Fonte: FIRJAN - Mapeamento da Economia Criativa {$anoAtual}",
                 'Pequenas e médias empresas' => "Fonte: SEBRAE - Panorama dos Pequenos Negócios {$anoAtual}"
             ],
             'Infraestrutura & Obras' => [
-                'Expansão de rodovias e ferrovias' => "Fonte: Ministério da Infraestrutura - Relatório de Obras {$anoAtual}",
-                'Situação de aeroportos e portos' => "Fonte: ANAC e ANTAQ - Dados de Operação {$anoAtual}",
-                'Projetos de saneamento e abastecimento' => "Fonte: SNIS - Diagnóstico do Saneamento {$anoAtual}",
-                'Transporte público urbano' => "Fonte: NTU - Anuário do Transporte Público {$anoAtual}",
-                'Telecomunicações e conectividade' => "Fonte: ANATEL - Relatório de Acompanhamento do Setor {$anoAtual}",
-                'Infraestrutura energética' => "Fonte: MME - Boletim de Monitoramento do Sistema Elétrico {$anoAtual}",
-                'Obras paralisadas e retomadas' => "Fonte: TCU - Fiscalização de Obras Públicas {$anoAtual}",
-                'Investimentos em mobilidade urbana' => "Fonte: MDR - Indicadores de Mobilidade {$anoAtual}"
+                'Expansão de rodovias e ferrovias' => "Fonte: MT - Relatório de Infraestrutura de Transportes {$anoAtual}",
+                'Situação de aeroportos e portos' => "Fonte: ANAC - Relatório Anual de Aviação Civil {$anoAtual}",
+                'Projetos de saneamento e abastecimento' => "Fonte: MCid - Sistema Nacional de Informações sobre Saneamento (SNIS) {$anoAtual}",
+                'Transporte público urbano' => "Fonte: MCid - Relatório Nacional de Mobilidade Urbana {$anoAtual}",
+                'Telecomunicações e conectividade' => "Fonte: ANATEL - Relatório Anual do Setor de Telecomunicações {$anoAtual}",
+                'Infraestrutura energética' => "Fonte: MME - Balanço Energético Nacional {$anoAtual}",
+                'Obras paralisadas e retomadas' => "Fonte: TCU - Relatório de Fiscalização de Obras Públicas {$anoAtual}",
+                'Investimentos em mobilidade urbana' => "Fonte: MCid - Programa Pró-Transporte {$anoAtual}"
             ],
             'Educação & Saúde' => [
-                'Financiamento do ensino superior' => "Fonte: MEC - Orçamento da Educação {$anoAtual}",
-                'Déficit de médicos no interior' => "Fonte: Ministério da Saúde - Relatório de Recursos Humanos {$anoAtual}",
-                'Qualidade do ensino básico' => "Fonte: INEP - Indicadores da Educação Básica {$anoAtual}",
-                'Educação profissional e tecnológica' => "Fonte: SETEC/MEC - Censo da Educação Profissional {$anoAtual}",
-                'Evasão escolar' => "Fonte: UNICEF - Cenário da Exclusão Escolar no Brasil {$anoAtual}",
-                'Saúde mental e políticas públicas' => "Fonte: MS - Relatório de Saúde Mental {$anoAtual}",
-                'Tecnologia na educação' => "Fonte: CIEB - Censo de Tecnologia Educacional {$anoAtual}",
-                'Vacinação e imunização' => "Fonte: PNI - Cobertura Vacinal Brasileira {$anoAtual}",
-                'Acesso à medicina especializada' => "Fonte: ANS - Mapa Assistencial da Saúde Suplementar {$anoAtual}"
+                'Financiamento do ensino superior' => "Fonte: MEC - Relatório de Execução Orçamentária {$anoAtual}",
+                'Déficit de médicos no interior' => "Fonte: CFM - Demografia Médica no Brasil {$anoAtual}",
+                'Qualidade do ensino básico' => "Fonte: INEP - Índice de Desenvolvimento da Educação Básica (IDEB) {$anoAtual}",
+                'Educação profissional e tecnológica' => "Fonte: MEC - Censo da Educação Profissional {$anoAtual}",
+                'Evasão escolar' => "Fonte: IBGE - PNAD Educação {$anoAtual}",
+                'Saúde mental e políticas públicas' => "Fonte: MS - Boletim Epidemiológico de Saúde Mental {$anoAtual}",
+                'Tecnologia na educação' => "Fonte: Cetic.br - Pesquisa TIC Educação {$anoAtual}",
+                'Vacinação e imunização' => "Fonte: MS - Dados do Programa Nacional de Imunizações (PNI) {$anoAtual}"
             ],
             'Segurança Pública' => [
-                'Combate ao tráfico de drogas' => "Fonte: MJSP - Relatório de Segurança Pública {$anoAtual}",
-                'Violência contra mulheres' => "Fonte: Fórum Brasileiro de Segurança Pública - Dados {$anoAtual}",
-                'Condições do sistema prisional' => "Fonte: CNJ - Levantamento Nacional de Prisões {$anoAtual}",
-                'Crimes cibernéticos' => "Fonte: Safernet Brasil - Indicadores de Denúncias {$anoAtual}",
-                'Segurança nas fronteiras' => "Fonte: PF - Operações de Controle Fronteiriço {$anoAtual}",
-                'Violência policial' => "Fonte: MDH - Relatório de Violações de Direitos {$anoAtual}",
-                'Criminalidade juvenil' => "Fonte: SINASE - Sistema Nacional de Atendimento Socioeducativo {$anoAtual}",
-                'Investimentos em inteligência' => "Fonte: SENASP - Políticas Integradas de Segurança {$anoAtual}"
+                'Combate ao tráfico de drogas' => "Fonte: MJSP - Relatório Anual da Polícia Federal {$anoAtual}",
+                'Violência contra mulheres' => "Fonte: FBSP - Anuário Brasileiro de Segurança Pública {$anoAtual}",
+                'Condições do sistema prisional' => "Fonte: DEPEN - Levantamento Nacional de Informações Penitenciárias {$anoAtual}",
+                'Crimes cibernéticos' => "Fonte: MJSP - Relatório Nacional de Crimes Cibernéticos {$anoAtual}",
+                'Segurança nas fronteiras' => "Fonte: MJSP - Relatório de Operações de Fronteira {$anoAtual}",
+                'Violência policial' => "Fonte: MDH - Relatório de Direitos Humanos {$anoAtual}",
+                'Criminalidade juvenil' => "Fonte: MJSP - Relatório do SINASE {$anoAtual}",
+                'Investimentos em inteligência' => "Fonte: MJSP - Relatório da SENASP {$anoAtual}"
             ],
             'Desenvolvimento Social' => [
-                'Combate à pobreza e desigualdade' => "Fonte: IBGE - Pesquisa Nacional por Amostra de Domicílios {$anoAtual}",
-                'Programas de transferência de renda' => "Fonte: Ministério da Cidadania - Relatório Social {$anoAtual}",
-                'Segurança alimentar e nutricional' => "Fonte: FAO - Indicadores de Fome e Nutrição {$anoAtual}",
-                'Políticas de habitação popular' => "Fonte: MDR - Programa Casa Verde e Amarela {$anoAtual}",
-                'Inclusão de pessoas com deficiência' => "Fonte: IBGE - Censo Demográfico e Pessoas com Deficiência {$anoAtual}",
-                'Envelhecimento populacional' => "Fonte: IPEA - Indicadores Sociodemográficos {$anoAtual}",
-                'Políticas para juventude' => "Fonte: SNJ - Mapa da Juventude Brasileira {$anoAtual}",
-                'Equidade racial' => "Fonte: SEPPIR - Relatório de Políticas de Igualdade Racial {$anoAtual}"
+                'Combate à pobreza e desigualdade' => "Fonte: IBGE - Síntese de Indicadores Sociais {$anoAtual}",
+                'Programas de transferência de renda' => "Fonte: MDS - Relatório do Bolsa Família {$anoAtual}",
+                'Segurança alimentar e nutricional' => "Fonte: CONSEA - Relatório de Segurança Alimentar {$anoAtual}",
+                'Políticas de habitação popular' => "Fonte: MCid - Relatório do Programa Minha Casa, Minha Vida {$anoAtual}",
+                'Inclusão de pessoas com deficiência' => "Fonte: IBGE - Censo Demográfico (Indicadores de Deficiência) {$anoAtual}",
+                'Envelhecimento populacional' => "Fonte: IBGE - Projeções Populacionais {$anoAtual}",
+                'Políticas para juventude' => "Fonte: SNJ - Relatório da Secretaria Nacional da Juventude {$anoAtual}",
+                'Equidade racial' => "Fonte: IPEA - Retrato das Desigualdades de Gênero e Raça {$anoAtual}"
             ]
         ];
 
-        // Função auxiliar para verificar se o dado de 2025 existe (simulação)
+        // Função auxiliar para verificar disponibilidade de dados (simulação)
         $verificarDisponibilidade = function ($fonte) use ($anoAtual, $anoAnterior) {
-            // Aqui você poderia integrar uma API ou consulta real para verificar a existência do dado
-            // Por ora, simulamos que 2025 pode não estar disponível em alguns casos
-            $dadoDisponivel2025 = rand(0, 1); // Simulação: 0 = não disponível, 1 = disponível
+            // Simulação: substitua por consulta real a APIs ou bancos de dados oficiais
+            $dadoDisponivel2025 = rand(0, 1); // 0 = não disponível, 1 = disponível
             return $dadoDisponivel2025 ? $fonte : str_replace($anoAtual, $anoAnterior, $fonte);
         };
 
         $resumo = "";
-
         $contador = 1;
         foreach ($temas as $tema => $subtemas) {
             $subtema = array_rand($subtemas);
