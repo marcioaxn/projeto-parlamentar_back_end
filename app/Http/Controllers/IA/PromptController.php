@@ -43,6 +43,7 @@ class PromptController extends Controller
 
     private function gerarResumoDinamico($uf)
     {
+
         $anoAtual = date('Y');
         $anoAnterior = date('Y') - 1;
 
@@ -50,27 +51,53 @@ class PromptController extends Controller
             'Economia & Empregos' => [
                 'Crescimento do setor industrial' => "Fonte: IBGE - Relatório de Produção Industrial {$anoAtual}",
                 'Desafios do agronegócio' => "Fonte: MAPA - Ministério da Agricultura {$anoAtual}",
-                'Impacto do turismo na geração de empregos' => "Fonte: MTur - Boletim Econômico do Turismo {$anoAtual}"
+                'Impacto do turismo na geração de empregos' => "Fonte: MTur - Boletim Econômico do Turismo {$anoAtual}",
+                'Comércio exterior e exportações' => "Fonte: MDIC - Balança Comercial Brasileira {$anoAtual}",
+                'Mercado de trabalho e desemprego' => "Fonte: IBGE - Pesquisa Nacional por Amostra de Domicílios Contínua {$anoAtual}",
+                'Inflação e poder de compra' => "Fonte: BCB - Relatório de Inflação {$anoAtual}",
+                'Desenvolvimento da economia criativa' => "Fonte: MinC - Mapeamento da Indústria Criativa {$anoAtual}",
+                'Pequenas e médias empresas' => "Fonte: SEBRAE - Panorama dos Pequenos Negócios {$anoAtual}"
             ],
             'Infraestrutura & Obras' => [
                 'Expansão de rodovias e ferrovias' => "Fonte: Ministério da Infraestrutura - Relatório de Obras {$anoAtual}",
                 'Situação de aeroportos e portos' => "Fonte: ANAC e ANTAQ - Dados de Operação {$anoAtual}",
-                'Projetos de saneamento e abastecimento' => "Fonte: SNIS - Diagnóstico do Saneamento {$anoAtual}"
+                'Projetos de saneamento e abastecimento' => "Fonte: SNIS - Diagnóstico do Saneamento {$anoAtual}",
+                'Transporte público urbano' => "Fonte: NTU - Anuário do Transporte Público {$anoAtual}",
+                'Telecomunicações e conectividade' => "Fonte: ANATEL - Relatório de Acompanhamento do Setor {$anoAtual}",
+                'Infraestrutura energética' => "Fonte: MME - Boletim de Monitoramento do Sistema Elétrico {$anoAtual}",
+                'Obras paralisadas e retomadas' => "Fonte: TCU - Fiscalização de Obras Públicas {$anoAtual}",
+                'Investimentos em mobilidade urbana' => "Fonte: MDR - Indicadores de Mobilidade {$anoAtual}"
             ],
             'Educação & Saúde' => [
                 'Financiamento do ensino superior' => "Fonte: MEC - Orçamento da Educação {$anoAtual}",
                 'Déficit de médicos no interior' => "Fonte: Ministério da Saúde - Relatório de Recursos Humanos {$anoAtual}",
-                'Qualidade do ensino básico' => "Fonte: INEP - Indicadores da Educação Básica {$anoAtual}"
+                'Qualidade do ensino básico' => "Fonte: INEP - Indicadores da Educação Básica {$anoAtual}",
+                'Educação profissional e tecnológica' => "Fonte: SETEC/MEC - Censo da Educação Profissional {$anoAtual}",
+                'Evasão escolar' => "Fonte: UNICEF - Cenário da Exclusão Escolar no Brasil {$anoAtual}",
+                'Saúde mental e políticas públicas' => "Fonte: MS - Relatório de Saúde Mental {$anoAtual}",
+                'Tecnologia na educação' => "Fonte: CIEB - Censo de Tecnologia Educacional {$anoAtual}",
+                'Vacinação e imunização' => "Fonte: PNI - Cobertura Vacinal Brasileira {$anoAtual}",
+                'Acesso à medicina especializada' => "Fonte: ANS - Mapa Assistencial da Saúde Suplementar {$anoAtual}"
             ],
             'Segurança Pública' => [
                 'Combate ao tráfico de drogas' => "Fonte: MJSP - Relatório de Segurança Pública {$anoAtual}",
                 'Violência contra mulheres' => "Fonte: Fórum Brasileiro de Segurança Pública - Dados {$anoAtual}",
-                'Condições do sistema prisional' => "Fonte: CNJ - Levantamento Nacional de Prisões {$anoAtual}"
+                'Condições do sistema prisional' => "Fonte: CNJ - Levantamento Nacional de Prisões {$anoAtual}",
+                'Crimes cibernéticos' => "Fonte: Safernet Brasil - Indicadores de Denúncias {$anoAtual}",
+                'Segurança nas fronteiras' => "Fonte: PF - Operações de Controle Fronteiriço {$anoAtual}",
+                'Violência policial' => "Fonte: MDH - Relatório de Violações de Direitos {$anoAtual}",
+                'Criminalidade juvenil' => "Fonte: SINASE - Sistema Nacional de Atendimento Socioeducativo {$anoAtual}",
+                'Investimentos em inteligência' => "Fonte: SENASP - Políticas Integradas de Segurança {$anoAtual}"
             ],
             'Desenvolvimento Social' => [
                 'Combate à pobreza e desigualdade' => "Fonte: IBGE - Pesquisa Nacional por Amostra de Domicílios {$anoAtual}",
                 'Programas de transferência de renda' => "Fonte: Ministério da Cidadania - Relatório Social {$anoAtual}",
-                'Segurança alimentar e nutricional' => "Fonte: FAO - Indicadores de Fome e Nutrição {$anoAtual}"
+                'Segurança alimentar e nutricional' => "Fonte: FAO - Indicadores de Fome e Nutrição {$anoAtual}",
+                'Políticas de habitação popular' => "Fonte: MDR - Programa Casa Verde e Amarela {$anoAtual}",
+                'Inclusão de pessoas com deficiência' => "Fonte: IBGE - Censo Demográfico e Pessoas com Deficiência {$anoAtual}",
+                'Envelhecimento populacional' => "Fonte: IPEA - Indicadores Sociodemográficos {$anoAtual}",
+                'Políticas para juventude' => "Fonte: SNJ - Mapa da Juventude Brasileira {$anoAtual}",
+                'Equidade racial' => "Fonte: SEPPIR - Relatório de Políticas de Igualdade Racial {$anoAtual}"
             ]
         ];
 
