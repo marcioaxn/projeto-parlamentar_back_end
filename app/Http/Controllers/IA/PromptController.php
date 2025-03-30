@@ -14,7 +14,7 @@ class PromptController extends Controller
 
             $cacheKey = "resumo_executivo_{$cargoParlamentar}_{$nomeParlamentar}_{$sglUfRepresentacao}";
 
-            Cache::forget($cacheKey);
+            // Cache::forget($cacheKey);
 
             return Cache::remember($cacheKey, now()->addHours(2), function () use ($nomeParlamentar, $cargoParlamentar, $sglPartido, $sglUfRepresentacao) {
                 $response = OpenAI::chat()->create([
