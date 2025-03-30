@@ -30,8 +30,8 @@
                                 : ($contracaoPrepositiva = 'da');
                         @endphp
 
-                        <div
-                            class="card-title border-bottom fs-4 text-white bg-senado-titulo-modal rounded mb-0 p-1 pl-2 pr-2">
+                        <div class="card-title border-bottom text-white bg-senado-titulo-modal rounded mb-0 p-1 pl-2 pr-2"
+                            style="font-size: 1.3rem!Important;">
                             Gabinete {{ $contracaoPrepositiva }}
                             {{ $getParlamentar->dsc_tratamento }} - <span class="fw-bold">
                                 {{ $getParlamentar->nom_parlamentar }} </span> -
@@ -228,7 +228,10 @@
 
                             </div>
 
-                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-2 p-1">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 pt-2 p-1 pl-3 pr-3">
+
+                                <hr>
+
                                 {!! markdownToHtml($resumoExecutivo) !!}
                             </div>
 

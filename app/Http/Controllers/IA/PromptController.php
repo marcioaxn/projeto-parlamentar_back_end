@@ -18,19 +18,23 @@ class PromptController extends Controller
 
             return Cache::remember($cacheKey, now()->addHours(2), function () use ($nomeParlamentar, $cargoParlamentar, $sglPartido, $sglUfRepresentacao) {
                 $response = OpenAI::chat()->create([
-                    'model' => 'gpt-4-turbo',
+                    'model' => 'gpt-3.5-turbo',
                     'messages' => [
-                        ['role' => 'system', 'content' => 'Você é um analista político especializado em fornecer resumos estratégicos dinâmicos para parlamentares. Cada tema deve trazer novas abordagens diariamente para evitar repetições. Os dados devem ser precisos, com fontes oficiais e impacto direto para o parlamentar.'],
-
+                        ['role' => 'system', 'content' => 'Você é um analista político especializado em fornecer resumos estratégicos dinâmicos para parlamentares. Cada tema deve trazer novas abordagens diariamente para evitar repetições. Os dados devem ser precisos, com fontes oficiais do ano corrente (2025) ou, se indisponíveis, do ano anterior (2024), e impacto direto para o parlamentar.'],
                         [
                             'role' => 'user',
-                            'content' => "\ud83d\udccc **Resumo Executivo elaborado em " . date('d/m/Y') . " às " . date('H:i') . "**  \n\n"
-                                . $this->gerarResumoDinamico($sglUfRepresentacao)
+                            'content' => "**Resumo Executivo**  \n\n"
+                                . $this->gerarResumoDinamico($sglUfRepresentacao) . "**Pesquisa e análise realizada por IA especializada em dados políticos.**"
                         ]
                     ],
+                    'temperature' => 0.7,
+                    'max_tokens' => 1000,
+                    'top_p' => 1,
+                    'frequency_penalty' => 0.2,
+                    'presence_penalty' => 0.5
                 ]);
 
-                return $response->choices[0]->message->content ?? 'Sem resposta da openAI, favor aguardar um novo processamento que ocorre às 07:00 e às 13:00 diariamente.';
+                return $response->choices[0]->message->content ?? 'Sem resposta da OpenAI, favor aguardar um novo processamento que ocorre às 07:00 e às 13:00 diariamente.';
             });
         }
 
@@ -39,70 +43,55 @@ class PromptController extends Controller
 
     private function gerarResumoDinamico($uf)
     {
+        $anoAtual = date('Y');
+        $anoAnterior = date('Y') - 1;
+
         $temas = [
             'Economia & Empregos' => [
-                'Crescimento do setor industrial',
-                'Desafios do agronegócio',
-                'Impacto do turismo na geração de empregos'
+                'Crescimento do setor industrial' => "Fonte: IBGE - Relatório de Produção Industrial {$anoAtual}",
+                'Desafios do agronegócio' => "Fonte: MAPA - Ministério da Agricultura {$anoAtual}",
+                'Impacto do turismo na geração de empregos' => "Fonte: MTur - Boletim Econômico do Turismo {$anoAtual}"
             ],
             'Infraestrutura & Obras' => [
-                'Expansão de rodovias e ferrovias',
-                'Situação de aeroportos e portos',
-                'Projetos de saneamento e abastecimento',
-                'Mobilidade urbana e transporte público',
-                'Habitação e regularização fundiária',
-                'Energia renovável e matriz energética',
-                'Infraestrutura digital e conectividade',
-                'Gestão de resíduos sólidos',
-                'Prevenção de desastres naturais',
-                'Revitalização de áreas urbanas degradadas'
+                'Expansão de rodovias e ferrovias' => "Fonte: Ministério da Infraestrutura - Relatório de Obras {$anoAtual}",
+                'Situação de aeroportos e portos' => "Fonte: ANAC e ANTAQ - Dados de Operação {$anoAtual}",
+                'Projetos de saneamento e abastecimento' => "Fonte: SNIS - Diagnóstico do Saneamento {$anoAtual}"
             ],
             'Educação & Saúde' => [
-                'Financiamento do ensino superior',
-                'Déficit de médicos no interior',
-                'Expansão da rede de escolas técnicas',
-                'Qualidade do ensino básico',
-                'Infraestrutura hospitalar e equipamentos',
-                'Programas de prevenção e promoção da saúde',
-                'Saúde mental e bem-estar social',
-                'Combate às epidemias e vigilância sanitária',
-                'Inclusão escolar e acessibilidade educacional'
+                'Financiamento do ensino superior' => "Fonte: MEC - Orçamento da Educação {$anoAtual}",
+                'Déficit de médicos no interior' => "Fonte: Ministério da Saúde - Relatório de Recursos Humanos {$anoAtual}",
+                'Qualidade do ensino básico' => "Fonte: INEP - Indicadores da Educação Básica {$anoAtual}"
             ],
             'Segurança Pública' => [
-                'Combate ao tráfico de drogas',
-                'Violência contra mulheres',
-                'Condições do sistema prisional',
-                'Modernização das forças policiais',
-                'Segurança nas fronteiras',
-                'Prevenção à violência juvenil',
-                'Tecnologia aplicada à segurança pública',
-                'Políticas de desarmamento',
-                'Policiamento comunitário e preventivo',
-                'Cooperação interestadual em segurança'
+                'Combate ao tráfico de drogas' => "Fonte: MJSP - Relatório de Segurança Pública {$anoAtual}",
+                'Violência contra mulheres' => "Fonte: Fórum Brasileiro de Segurança Pública - Dados {$anoAtual}",
+                'Condições do sistema prisional' => "Fonte: CNJ - Levantamento Nacional de Prisões {$anoAtual}"
             ],
             'Desenvolvimento Social' => [
-                'Combate à pobreza e desigualdade',
-                'Programas de transferência de renda',
-                'Segurança alimentar e nutricional',
-                'Políticas para juventude',
-                'Acessibilidade e inclusão de pessoas com deficiência',
-                'Proteção à criança e ao adolescente',
-                'Políticas para idosos e envelhecimento ativo',
-                'Igualdade racial e combate à discriminação',
-                'Direitos dos povos tradicionais e indígenas',
-                'Economia solidária e cooperativismo'
+                'Combate à pobreza e desigualdade' => "Fonte: IBGE - Pesquisa Nacional por Amostra de Domicílios {$anoAtual}",
+                'Programas de transferência de renda' => "Fonte: Ministério da Cidadania - Relatório Social {$anoAtual}",
+                'Segurança alimentar e nutricional' => "Fonte: FAO - Indicadores de Fome e Nutrição {$anoAtual}"
             ]
         ];
 
+        // Função auxiliar para verificar se o dado de 2025 existe (simulação)
+        $verificarDisponibilidade = function ($fonte) use ($anoAtual, $anoAnterior) {
+            // Aqui você poderia integrar uma API ou consulta real para verificar a existência do dado
+            // Por ora, simulamos que 2025 pode não estar disponível em alguns casos
+            $dadoDisponivel2025 = rand(0, 1); // Simulação: 0 = não disponível, 1 = disponível
+            return $dadoDisponivel2025 ? $fonte : str_replace($anoAtual, $anoAnterior, $fonte);
+        };
+
         $resumo = "";
+
         $contador = 1;
         foreach ($temas as $tema => $subtemas) {
-            $subtema = $subtemas[array_rand($subtemas)];
-            $resumo .= "{$contador}\uFE0F\u20E3 **{$tema}**  \n\n
-- {$subtema} no estado do {$uf}. [Dados detalhados e fontes oficiais aqui].  \n\n
-🔹 **Oportunidade**: [Informação específica].  \n
-🎯 **Ação Sugerida**: [Medida concreta].  \n\n
-            ";
+            $subtema = array_rand($subtemas);
+            $fonteAjustada = $verificarDisponibilidade($subtemas[$subtema]);
+            $resumo .= "{$contador}️⃣ **{$tema}**  \n";
+            $resumo .= "- **{$subtema}** no estado de {$uf}. {$fonteAjustada}  \n";
+            $resumo .= "🔹 **Oportunidade:** [Informação específica].  \n";
+            $resumo .= "🎯 **Ação Sugerida:** [Medida concreta].  \n\n";
             $contador++;
         }
 
