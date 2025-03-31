@@ -268,6 +268,8 @@ Route::get('atualizarTabParlamentares', 'App\Http\Controllers\helperController@a
 
 Route::get('relatorios/download-exportar/excel/dados-parlamentares', [\App\Http\Controllers\helperController::class, 'downloadExportDadosParlamentaresFederais'])->name('relatorios.export-dados-parlamentares');
 
+Route::get('atualizar-ia-prompt-parlamentar', [\App\Http\Controllers\helperController::class, 'gerarResumoExecutivoPorParlamentar'])->name('atualizacao.ia.prompt.parlamentar');
+
 Route::get('downloadCaixaZip', 'App\Http\Controllers\ImportController@downloadCaixaZip')->name('atualizar.caixa');
 
 Route::post('/login', [LoginController::class, 'login']);

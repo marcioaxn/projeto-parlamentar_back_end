@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Session;
+use App\Models\TabParlamentares;
 use App\Models\TabApiCamaraLegislaturas;
 use App\Models\TabApiCamaraDeputadosRedesSociais;
 use App\Models\TabAudit;
+use App\Models\TabContrato;
 use App\Models\TabLogErros;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -29,6 +31,8 @@ use App\Http\Controllers\TabApiSenadoListaAtualSenadoresController;
 use App\Http\Controllers\TabIndicadoresEstadosController;
 use App\Http\Controllers\TabIbgeController;
 use App\Http\Controllers\MunicipiosController;
+
+use App\Http\Controllers\IA\PromptController;
 
 use App\Exports\BaseParlamentaresFederaisExport;
 
@@ -79,6 +83,11 @@ class helperController extends Controller
     public function instanciarTabIbgeController()
     {
         return new TabIbgeController;
+    }
+
+    public function instanciarPromptController()
+    {
+        return new PromptController;
     }
 
     public function atualizarDadosApiCamaraEApiSenado()
@@ -314,7 +323,6 @@ class helperController extends Controller
                                         }
                                     }
                                 }
-
                             }
 
                             if ($gravarForaForeach > 0) {
@@ -589,7 +597,6 @@ class helperController extends Controller
                                                                     $model = 'App\Models\\' . transformarNomeTabelaParaNomeModel($table);
 
                                                                     $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
-
                                                                 }
                                                             }
                                                         }
@@ -745,9 +752,7 @@ class helperController extends Controller
                                                                                 $campos[$columnName] = $valueGabinete;
                                                                             }
                                                                         }
-
                                                                     }
-
                                                                 }
                                                             }
                                                         }
@@ -863,15 +868,10 @@ class helperController extends Controller
 
                                 $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                             }
-
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         return 'Dados da mesa diretora da Câmara dos Deputados foram gravados com sucesso!';
@@ -1181,33 +1181,20 @@ class helperController extends Controller
                                                         $model = 'App\Models\\' . transformarNomeTabelaParaNomeModel($table);
 
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
-
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
-
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         return "Gravação ocorreu com êxito: Senado, legislatura 57!";
-
     }
 
     public function fotosTse()
@@ -1271,13 +1258,10 @@ class helperController extends Controller
                 $zip->open(storage_path('app/public/fotos/tse/zip/' . $filename));
                 $zip->extractTo(storage_path('app/public/fotos/tse/'));
                 $zip->close();
-
             }
-
         }
 
         return response()->json(['message' => 'Os arquivos compactados com as fotos dos parlamentares estaduais e distritais foram baixadas e em seguida foram descompactados!']);
-
     }
 
     public function downloadJsonSenado()
@@ -1738,24 +1722,15 @@ class helperController extends Controller
                                     }
 
                                     $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
-
                                 }
-
                             }
-
-
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         return 'Dados da mesa diretora do Senado Federal foram gravados com sucesso!';
-
     }
 
     public function salvarDadosBasicosParlamentar($codigoParlamentar = null)
@@ -2053,7 +2028,6 @@ class helperController extends Controller
                                                     $campos[$columnName] = $valueComissao;
                                                 }
                                             }
-
                                         }
 
                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
@@ -2162,9 +2136,7 @@ class helperController extends Controller
                     }
                 }
             }
-
         }
-
     }
 
     public function liderancasSenadores()
@@ -2426,7 +2398,6 @@ class helperController extends Controller
             }
 
             $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
-
         }
         // Fim da atualização da tab_parlamentares com o foco nos senadores
 
@@ -2464,7 +2435,6 @@ class helperController extends Controller
         // Fim da atualização da tab_parlamentares com o foco nos deputados federais
 
         return 'Dados dos Senadores foram atualizados com sucesso na tabela tab_parlamentares.';
-
     }
 
     protected function atualizarOuCriarPorModeloDados($model = null, $id = [], $campos = [])
@@ -2498,7 +2468,6 @@ class helperController extends Controller
                             }
 
                             $contId++;
-
                         }
 
                         $consulta = null;
@@ -2506,7 +2475,6 @@ class helperController extends Controller
                         if (array_key_exists($nomeId, $id)) {
 
                             $consulta = $model::find($id[$nomeId]);
-
                         }
 
                         // Use o método `getTable` para obter o nome da tabela
@@ -2573,7 +2541,6 @@ class helperController extends Controller
                                     $gravarAuditoria->save();
                                 }
                             }
-
                         }
                         // Fim gravar auditoria
 
@@ -2587,9 +2554,7 @@ class helperController extends Controller
 
                     return true;
                 }
-
             }
-
         } catch (Illuminate\Database\QueryException $e) {
             TabLogErros::create(array('mensagem' => 'Erro ao gravar dados: ' . $e->getMessage()));
         }
@@ -2834,17 +2799,11 @@ class helperController extends Controller
                                                         $campos['vlr_populacao'] = $value;
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
                             // Fim da parte da População no último censo
                             // -- x -- x -- x -- x --
@@ -2886,17 +2845,11 @@ class helperController extends Controller
                                                         $campos['vlr_densidade_demografica'] = $value;
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
                             // Fim da parte da Densidade demográfica
                             // -- x -- x -- x -- x --
@@ -2938,17 +2891,11 @@ class helperController extends Controller
                                                         $campos['vlr_pib_per_capita'] = $value;
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
                             // Fim da parte do Rendimento nominal mensal domiciliar per capita
                             // -- x -- x -- x -- x --
@@ -2990,17 +2937,11 @@ class helperController extends Controller
                                                         $campos['vlr_receita_orcamentaria_realizada'] = $value;
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
                             // Fim da parte das Receitas orçamentárias realizadas
                             // -- x -- x -- x -- x --
@@ -3042,17 +2983,11 @@ class helperController extends Controller
                                                         $campos['vlr_despesa_orcamentaria_empenhada'] = $value;
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
                             // Fim da parte das Despesas orçamentárias realizadas
                             // -- x -- x -- x -- x --
@@ -3094,29 +3029,19 @@ class helperController extends Controller
                                                         $campos['vlr_idh'] = $value;
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
                             // Fim da parte do IDH
                             // -- x -- x -- x -- x --
 
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         return 'Dados e indicadores oriundos do IBGE foram atualizados com sucesso para os municípios.';
@@ -3187,17 +3112,11 @@ class helperController extends Controller
                                                         $campos['vlr_populacao'] = $value;
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
                             // Fim da parte da População no último censo
                             // -- x -- x -- x -- x --
@@ -3239,17 +3158,11 @@ class helperController extends Controller
                                                         $campos['vlr_densidade_demografica'] = $value;
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
                             // Fim da parte da Densidade demográfica
                             // -- x -- x -- x -- x --
@@ -3291,17 +3204,11 @@ class helperController extends Controller
                                                         $campos['vlr_rnmdpc'] = $value;
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
                             // Fim da parte do Rendimento nominal mensal domiciliar per capita
                             // -- x -- x -- x -- x --
@@ -3343,17 +3250,11 @@ class helperController extends Controller
                                                         $campos['vlr_receita_orcamentaria_realizada'] = $value;
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
                             // Fim da parte das Receitas orçamentárias realizadas
                             // -- x -- x -- x -- x --
@@ -3395,17 +3296,11 @@ class helperController extends Controller
                                                         $campos['vlr_despesa_orcamentaria_empenhada'] = $value;
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
                             // Fim da parte das Despesas orçamentárias realizadas
                             // -- x -- x -- x -- x --
@@ -3447,29 +3342,19 @@ class helperController extends Controller
                                                         $campos['vlr_idh'] = $value;
                                                         $this->atualizarOuCriarPorModeloDados($model, $id, $campos);
                                                     }
-
                                                 }
-
                                             }
-
                                         }
-
                                     }
-
                                 }
-
                             }
                             // Fim da parte do IDH
                             // -- x -- x -- x -- x --
 
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         return 'Dados e indicadores oriundos do IBGE foram atualizados com sucesso para os estados.';
@@ -3498,4 +3383,43 @@ class helperController extends Controller
         return "Arquivo exportado com sucesso para {$path}.";
     }
 
+    public function gerarResumoExecutivoPorParlamentar()
+    {
+        try {
+            $contratosAtivos = TabContrato::with('gabinete')
+                ->where('sta_ativo', 'A')
+                ->where('dat_inicio', '<=', now())
+                ->where('dat_fim', '>=', now())
+                ->get();
+
+            $prompt = $this->instanciarPromptController();
+
+            foreach ($contratosAtivos as $contrato) {
+                $parlamentar = TabParlamentares::find($contrato->gabinete->cod_parlamentar);
+
+                if (!$parlamentar) {
+                    continue;
+                }
+
+                $prompt->getResumoExecutivoParlamentar(
+                    $parlamentar->cod_parlamentar,
+                    $parlamentar->nom_parlamentar,
+                    $parlamentar->dsc_tratamento,
+                    $parlamentar->sgl_partido,
+                    $parlamentar->sgl_uf_representante
+                );
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Resumo executivo gerado com sucesso.'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Erro ao gerar resumo executivo.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
