@@ -20,8 +20,7 @@ use App\Http\Controllers\TabTseConsolidadaCamaraDeputadosController;
 use App\Http\Controllers\TabTseConsolidadaSenadoFederalController;
 use App\Http\Controllers\VisTciEmendasController;
 
-use App\Http\Controllers\IA\PromptController;
-
+use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
@@ -44,11 +43,6 @@ class ParlamentarController extends Controller
     public function instanciarTabParlamentaresController()
     {
         return new TabParlamentaresController;
-    }
-
-    public function instanciarPromptController()
-    {
-        return new PromptController;
     }
 
     public function instanciarTabUltimaAtualizacaoParlamentaresController()
@@ -242,8 +236,14 @@ class ParlamentarController extends Controller
                                 if (!empty($getParlamentar)) {
 
                                     // Início da parte para pegar pegar o resultado do prompt da IA
-                                    $prompt = $this->instanciarPromptController();
-                                    $resumoExecutivo = $prompt->getResumoExecutivoParlamentar($getParlamentar->nom_parlamentar, $getParlamentar->dsc_tratamento, $getParlamentar->sgl_partido, $getParlamentar->sgl_uf_representante);
+                                    $cacheKey = "resumo_executivo_{$getParlamentar->cod_parlamentar}";
+                                    if (Cache::has($cacheKey)) {
+                                        $cacheData = Cache::get($cacheKey);
+
+                                        if (!empty($cacheData)) {
+                                            $resumoExecutivo = $cacheData;
+                                        }
+                                    }
                                     // Fim da parte para pegar pegar o resultado do prompt da IA
 
                                     // Início da parte para pegar os dados do TSE
